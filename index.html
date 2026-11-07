@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PayPlan</title>
+  <style>
+    :root {
+      --blue: #173b57;
+      --blueSoft: #eaf1f6;
+      --green: #2e9d68;
+      --greenSoft: #eafaf2;
+      --orange: #f2a541;
+      --orangeSoft: #fff5e5;
+      --bg: #f4f7fa;
+      --text: #223546;
+      --muted: #72839a;
+      --white: #ffffff;
+      --line: #e4eaef;
+      --red: #cf4f4f;
+      --shadow: 0 6px 20px rgba(23,59,87,0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 110px;
+    }
+
+    header {
+      background: var(--blue);
+      color: white;
+      padding: 18px 0;
+      box-shadow: 0 8px 20px rgba(23,59,87,0.08);
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-inner h1 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+
+    .header-inner .pill {
+      background: rgba(255,255,255,0.08);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      color: #dfeaf2;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin: 18px 0 12px;
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--blue);
+      font-size: 1.35rem;
+    }
+
+    h3 {
+      margin: 0;
+      color: var(--blue);
+      font-size: 1.05rem;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .metric {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+
+    .green { color: var(--green); }
+    .orange { color: var(--orange); }
+    .red { color: var(--red); }
+
+    .notice {
+      background: var(--orangeSoft);
+      border: 1px solid #f5d69f;
+      color: #954d00;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      font-weight: 600;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stack {
+      display: grid;
+      gap: 8px;
+    }
+
+    form {
+      display: grid;
+      gap: 12px;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      font-weight: bold;
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid #cfd9e3;
+      font-size: 1rem;
+      background: white;
+      color: var(--text);
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    button:hover { filter: brightness(0.98); }
+
+    .primary {
+      background: var(--blue);
+      color: white;
+    }
+
+    .secondary {
+      background: var(--blueSoft);
+      color: var(--blue);
+    }
+
+    .warning {
+      background: var(--orangeSoft);
+      color: #9c6000;
+    }
+
+    .danger {
+      background: #fff2f2;
+      color: var(--red);
+    }
+
+    .small {
+      padding: 8px 10px;
+      font-size: 0.86rem;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .item {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: white;
+    }
+
+    .item .top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .item strong {
+      font-size: 1rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      background: var(--blueSoft);
+      color: var(--blue);
+    }
+
+    .badge.orange {
+      background: var(--orangeSoft);
+      color: #9f6400;
+    }
+
+    .badge.green {
+      background: var(--greenSoft);
+      color: var(--green);
+    }
+
+    .empty {
+      color: var(--muted);
+      padding: 10px 0;
+    }
+
+    nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 12px;
+      z-index: 10;
+    }
+
+    nav button {
+      background: transparent;
+      color: var(--muted);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      border: 0;
+    }
+
+    nav button.active {
+      background: var(--blueSoft);
+      color: var(--blue);
+      font-weight: bold;
+    }
+
+    @media (max-width: 650px) {
+      .header-inner { padding: 0 14px; }
+      .section-title { display: block; }
+      .item .top { display: block; }
+      nav { justify-content: space-between; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <h1>PayPlan</h1>
+      <div class="pill" id="todayLabel"></div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div id="app"></div>
+  </div>
+
+  <nav id="nav"></nav>
+
+  <script>
+    const STORAGE_KEY = "payplan_v2";
+    let currentPage = "home";
+
+    function defaultState() {
+      return {
+        debts: [
+          // Ejemplo inicial
+          // { id: "d1", name: "Tarjeta", amount: 500, remaining: 500, dueDate: "2026-11-15", minimum: 80 }
+        ],
+        incomes: [
+          // Ejemplo inicial
+          // { id: "i1", name: "Cobro del 15", amount: 300, date: "2026-11-15", recurring: "mensual" }
+        ],
+        payments: []
+      };
+    }
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        return saved ? saved : defaultState();
+      } catch {
+        return defaultState();
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function uid(prefix = "") {
+      return prefix + "-" + Math.random().toString(36).slice(2, 9) + Date.now().toString(36);
+    }
+
+    function formatMoney(value) {
+      return new Intl.NumberFormat("es-US", {
+        style: "currency",
+        currency: "USD"
+      }).format(Number(value || 0));
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return "Sin fecha";
+      const d = new Date(dateStr + "T00:00:00");
+      return d.toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" });
+    }
+
+    function todayString() {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const da = String(d.getDate()).padStart(2, "0");
+      return y + "-" + m + "-" + da;
+    }
+
+    function daysUntil(dateString) {
+      const d = new Date(dateString + "T00:00:00");
+      const now = new Date();
+      now.setHours(0, 0, 0, 0);
+      d.setHours(0, 0, 0, 0);
+      return Math.round((d - now) / (1000 * 60 * 60 * 24));
+    }
+
+    function debtRemaining(debt) {
+      const paid = state.payments
+        .filter(p => p.debtId === debt.id)
+        .reduce((sum, p) => sum + Number(p.amount), 0);
+
+      return Math.max(0, Number(debt.amount) - paid);
+    }
+
+    function upcomingDebtList() {
+      return [...state.debts]
+        .filter(d => debtRemaining(d) > 0)
+        .sort((a, b) => (a.dueDate || "9999").localeCompare(b.dueDate || "9999"));
+    }
+
+    function getIncomeForDate(dateStr) {
+      return state.incomes.filter(item => item.date === dateStr)
+        .reduce((sum, item) => sum + Number(item.amount), 0);
+    }
+
+    function getAllIncomeSoon(limitDays = 365) {
+      const start = new Date(todayString() + "T00:00:00");
+      const result = [];
+
+      for (const item of state.incomes) {
+        const d = new Date(item.date + "T00:00:00");
+        const diff = Math.round((d - start) / (1000 * 60 * 60 * 24));
+        if (diff >= 0 && diff <= limitDays) {
+          result.push({ ...item, diff });
+        }
+      }
+
+      return result.sort((a, b) => new Date(a.date) - new Date(b.date));
+    }
+
+    function calculatePlan() {
+      const debts = upcomingDebtList();
+      if (!debts.length) return [];
+
+      const incomes = getAllIncomeSoon(365);
+      let cash = incomes.reduce((sum, item) => sum + Number(item.amount), 0);
+
+      const plan = [];
+      for (const debt of debts) {
+        const remaining = debtRemaining(debt);
+        let suggestion = Math.min(cash, remaining);
+        if (debt.minimum && debt.minimum > 0) {
+          suggestion = Math.min(Math.max(0, debt.minimum), remaining, cash);
+        }
+        plan.push({
+          debtId: debt.id,
+          name: debt.name,
+          dueDate: debt.dueDate,
+          remaining,
+          suggestion,
+          days: daysUntil(debt.dueDate)
+        });
+        cash = Math.max(0, cash - suggestion);
+      }
+
+      return plan;
+    }
+
+    function getAvailableMoney() {
+      const incomes = state.incomes.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+      const payments = state.payments.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+      return incomes - payments;
+    }
+
+    function renderNav() {
+      const pages = [
+        ["home", "🏠 Inicio"],
+        ["debts", "📋 Deudas"],
+        ["income", "💵 Ingresos"],
+        ["calendar", "📅 Calendario"],
+        ["profile", "👤 Perfil"],
+        ["help", "❔ Ayuda"]
+      ];
+
+      document.getElementById("nav").innerHTML = pages.map(([key, label]) =>
+        `<button data-page="${key}" class="${currentPage === key ? "active" : ""}">${label}</button>`
+      ).join("");
+    }
+
+    function renderHome() {
+      const debts = upcomingDebtList();
+      const plan = calculatePlan();
+      const reminder = debts.filter(d => daysUntil(d.dueDate) <= 5 && debtRemaining(d) > 0);
+
+      const nextDue = debts[0];
+      const available = getAvailableMoney();
+
+      return `
+        <div class="section-title">
+          <h2>Inicio</h2>
+        </div>
+
+        ${reminder.length ? `
+          <div class="notice">
+            🔔 Tienes ${reminder.length} pago(s) que vencen en los próximos 5 días.
+          </div>
+        ` : ""}
+
+        <div class="grid">
+          <div class="card">
+            <div class="muted">Dinero disponible</div>
+            <div class="metric green">${formatMoney(available)}</div>
+            <div class="muted">Ingresos totales menos pagos ya registrados.</div>
+          </div>
+
+          <div class="card">
+            <div class="muted">Próximo vencimiento</div>
+            ${nextDue ? `
+              <div class="metric orange">${formatMoney(debtRemaining(nextDue))}</div>
+              <strong>${escapeHtml(nextDue.name)}</strong>
+              <div class="muted">${daysUntil(nextDue.dueDate) < 0 ? "Venció hace " + Math.abs(daysUntil(nextDue.dueDate)) + " días" :
+                 daysUntil(nextDue.dueDate) === 0 ? "Vence hoy" :
+                 "Vence en " + daysUntil(nextDue.dueDate) + " días"}</div>
+            ` : `<div class="empty">No tienes deudas pendientes.</div>`}
+          </div>
+
+          <div class="card">
+            <div class="muted">Pagos próximos</div>
+            <div class="metric orange">${reminder.length}</div>
+            <div class="muted">Deudas que se vencen pronto.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <h3>Plan recomendado</h3>
+            <button class="secondary small" data-target="debts">Ver deudas</button>
+          </div>
+
+          ${plan.length ? plan.map(item => `
+            <div class="item">
+              <div class="top">
+                <div>
+                  <strong>${escapeHtml(item.name)}</strong>
+                  <div class="muted">${formatDate(item.dueDate)} · ${item.days < 0 ? "Venció hace " + Math.abs(item.days) + " días" : item.days === 0 ? "Vence hoy" : "Vence en " + item.days + " días"}</div>
+                </div>
+                <div class="badge orange">${formatMoney(item.suggestion)}</div>
+              </div>
+            </div>
+          `).join("") : `<div class="empty">No hay un plan todavía. Agrega deuda o ingreso.</div>`}
+        </div>
+      `;
+    }
+
+    function renderDebts() {
+      const debts = upcomingDebtList();
+
+      return `
+        <div class="section-title">
+          <h2>Mis deudas</h2>
+          <button class="primary small" data-open="debtForm">+ Agregar deuda</button>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Agregar deuda</h3>
+            <form id="debtForm">
+              <label>Nombre
+                <input type="text" name="name" placeholder="Ej. Tarjeta de crédito" required>
+              </label>
+              <label>Monto total
+                <input type="number" name="amount" step="0.01" min="0.01" required>
+              </label>
+              <label>Cuota/ mínimo sugerido
+                <input type="number" name="minimum" step="0.01" min="0" placeholder="Opcional">
+              </label>
+              <label>Fecha de vencimiento
+                <input type="date" name="dueDate" required>
+              </label>
+              <button class="primary" type="submit">Guardar deuda</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <h3>Orden recomendado</h3>
+            ${calculatePlan().length ? calculatePlan().map(item => `
+              <div class="item">
+                <div class="top">
+                  <div>
+                    <strong>${escapeHtml(item.name)}</strong>
+                    <div class="muted">${formatDate(item.dueDate)}</div>
+                  </div>
+                  <div class="badge orange">${formatMoney(item.suggestion)}</div>
+                </div>
+              </div>
+            `).join("") : `<div class="empty">No hay sugerencias todavía.</div>`}
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Deudas registradas</h3>
+          <div class="list">
+            ${debts.length ? debts.map(debt => `
+              <div class="item">
+                <div class="top">
+                  <div>
+                    <strong>${escapeHtml(debt.name)}</strong>
+                    <div class="muted">${formatDate(debt.dueDate)} · ${daysUntil(debt.dueDate) < 0 ? "Venció" : "Vence en " + daysUntil(debt.dueDate) + " días"}</div>
+                  </div>
+                  <div class="badge">${formatMoney(debtRemaining(debt))}</div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                  <div class="muted">Monto total: ${formatMoney(debt.amount)}</div>
+                  <button class="danger small" data-delete-debt="${debt.id}">Borrar</button>
+                </div>
+              </div>
+            `).join("") : `<div class="empty">Todavía no agregas deudas.</div>`}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderIncome() {
+      const incomes = [...state.incomes].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      return `
+        <div class="section-title">
+          <h2>Ingresos</h2>
+          <button class="primary small" data-open="incomeForm">+ Agregar ingreso</button>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Registrar ingreso</h3>
+            <form id="incomeForm">
+              <label>Concepto
+                <input type="text" name="name" placeholder="Ej. Cobro del 15" required>
+              </label>
+              <label>Monto
+                <input type="number" name="amount" step="0.01" min="0.01" required>
+              </label>
+              <label>Fecha
+                <input type="date" name="date" value="${todayString()}" required>
+              </label>
+              <label>Frecuencia
+                <select name="recurring">
+                  <option value="única">Única</option>
+                  <option value="semanal">Semanal</option>
+                  <option value="quincenal">Quincenal</option>
+                  <option value="mensual">Mensual</option>
+                </select>
+              </label>
+              <button class="primary" type="submit">Guardar ingreso</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <h3>Dinero total recibido</h3>
+            <div class="metric green">${formatMoney(state.incomes.reduce((sum, item) => sum + Number(item.amount), 0))}</div>
+            <div class="muted">Esto representa el ingreso registrado hasta ahora.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Ingresos registrados</h3>
+          <div class="list">
+            ${incomes.length ? incomes.map(item => `
+              <div class="item">
+                <div class="top">
+                  <div>
+                    <strong>${escapeHtml(item.name)}</strong>
+                    <div class="muted">${formatDate(item.date)} · ${item.recurring}</div>
+                  </div>
+                  <div class="badge green">${formatMoney(item.amount)}</div>
+                </div>
+                <div style="margin-top:10px;">
+                  <button class="danger small" data-delete-income="${item.id}">Borrar</button>
+                </div>
+              </div>
+            `).join("") : `<div class="empty">Aún no registras ingresos.</div>`}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCalendar() {
+      const events = [];
+      state.debts.forEach(d => {
+        if (debtRemaining(d) > 0) {
+          events.push({
+            type: "debt",
+            date: d.dueDate,
+            name: d.name,
+            amount: debtRemaining(d),
+            color: "orange"
+          });
+        }
+      });
+      state.incomes.forEach(i => {
+        events.push({
+          type: "income",
+          date: i.date,
+          name: i.name,
+          amount: i.amount,
+          color: "green"
+        });
+      });
+
+      events.sort((a, b) => a.date.localeCompare(b.date));
+
+      return `
+        <div class="section-title">
+          <h2>Calendario</h2>
+        </div>
+
+        <div class="card">
+          <h3>Fechas importantes</h3>
+          <div class="list">
+            ${events.length ? events.map(item => `
+              <div class="item">
+                <div class="top">
+                  <div>
+                    <strong>${escapeHtml(item.name)}</strong>
+                    <div class="muted">${formatDate(item.date)}</div>
+                  </div>
+                  <div class="badge ${item.color === "green" ? "green" : "orange"}">${item.type === "income" ? "Ingreso" : "Deuda"}</div>
+                </div>
+                <div style="margin-top:8px;">
+                  <strong>${item.type === "income" ? formatMoney(item.amount) : formatMoney(item.amount)}</strong>
+                </div>
+              </div>
+            `).join("") : `<div class="empty">No hay fechas registradas todavía.</div>`}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderProfile() {
+      const profileName = localStorage.getItem("payplan_profile_name") || "";
+      return `
+        <div class="section-title">
+          <h2>Perfil</h2>
+        </div>
+
+        <div class="card">
+          <h3>Información personal</h3>
+          <form id="profileForm">
+            <label>Nombre
+              <input type="text" name="name" value="${escapeHtml(profileName)}" placeholder="Ej. Eladio">
+            </label>
+            <button class="primary" type="submit">Guardar perfil</button>
+          </form>
+        </div>
+      `;
+    }
+
+    function renderHelp() {
+      return `
+        <div class="section-title">
+          <h2>Ayuda</h2>
+        </div>
+
+        <div class="card">
+          <h3>Cómo usar PayPlan</h3>
+          <ul>
+            <li>Agrega cada deuda con su fecha de vencimiento.</li>
+            <li>Agrega tus ingresos, como “Me pagan 300 el 15”.</li>
+            <li>PayPlan te mostrará primero lo que vence antes.</li>
+            <li>Revisa el plan recomendado y usa ese dinero para pagar primero las deudas más cercanas.</li>
+            <li>Cuando hagas un pago, regístralo en la opción de “deudas” o en la app que uses luego.</li>
+          </ul>
+
+          <div class="muted" style="margin-top:12px;">
+            Ejemplo:
+            <br />
+            Ingreso: $300 el 15
+            <br />
+            Deuda 1: $50 vence el 15
+            <br />
+            Deuda 2: $120 vence el 18
+            <br />
+            Resultado sugerido: pagar primero la deuda del 15, luego la del 18.
+          </div>
+        </div>
+      `;
+    }
+
+    function renderApp() {
+      const renderMap = {
+        home: renderHome,
+        debts: renderDebts,
+        income: renderIncome,
+        calendar: renderCalendar,
+        profile: renderProfile,
+        help: renderHelp
+      };
+
+      document.getElementById("app").innerHTML = renderMap[currentPage]();
+      document.getElementById("todayLabel").textContent =
+        new Date().toLocaleDateString("es-MX", { weekday: "short", day: "numeric", month: "short" });
+      renderNav();
+    }
+
+    function escapeHtml(value) {
+      return String(value || "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[char]));
+    }
+
+    document.addEventListener("click", function (e) {
+      const pageBtn = e.target.closest("[data-page]");
+      if (pageBtn) {
+        currentPage = pageBtn.dataset.page;
+        renderApp();
+        return;
+      }
+
+      const targetBtn = e.target.closest("[data-target]");
+      if (targetBtn) {
+        currentPage = targetBtn.dataset.target;
+        renderApp();
+        return;
+      }
+
+      const deleteDebtBtn = e.target.closest("[data-delete-debt]");
+      if (deleteDebtBtn) {
+        state.debts = state.debts.filter(d => d.id !== deleteDebtBtn.dataset.deleteDebt);
+        saveState();
+        renderApp();
+        return;
+      }
+
+      const deleteIncomeBtn = e.target.closest("[data-delete-income]");
+      if (deleteIncomeBtn) {
+        state.incomes = state.incomes.filter(i => i.id !== deleteIncomeBtn.dataset.deleteIncome);
+        saveState();
+        renderApp();
+        return;
+      }
+    });
+
+    document.addEventListener("submit", function (e) {
+      if (e.target.id === "debtForm") {
+        e.preventDefault();
+        const form = new FormData(e.target);
+        const debt = {
+          id: uid("debt"),
+          name: form.get("name").trim(),
+          amount: Number(form.get("amount")),
+          minimum: Number(form.get("minimum") || 0),
+          dueDate: form.get("dueDate")
+        };
+
+        if (!debt.name || !debt.dueDate || debt.amount <= 0) {
+          alert("Completa los datos de la deuda.");
+          return;
+        }
+
+        state.debts.push(debt);
+        saveState();
+        renderApp();
+        return;
+      }
+
+      if (e.target.id === "incomeForm") {
+        e.preventDefault();
+        const form = new FormData(e.target);
+        const income = {
+          id: uid("income"),
+          name: form.get("name").trim(),
+          amount: Number(form.get("amount")),
+          date: form.get("date"),
+          recurring: form.get("recurring")
+        };
+
+        if (!income.name || !income.date || income.amount <= 0) {
+          alert("Completa el ingreso correctamente.");
+          return;
+        }
+
+        state.incomes.push(income);
+        saveState();
+        renderApp();
+        return;
+      }
+
+      if (e.target.id === "profileForm") {
+        e.preventDefault();
+        const form = new FormData(e.target);
+        const name = (form.get("name") || "").trim();
+        localStorage.setItem("payplan_profile_name", name);
+        renderApp();
+      }
+    });
+
+    let state = loadState();
+
+    renderApp();
+  </script>
+</body>
+</html>
