@@ -395,7 +395,8 @@
       ["debts", "📋", "Deudas"],
       ["income", "💵", "Ingresos"],
       ["payments", "✅", "Pagos"],
-      ["calendar", "📅", "Fechas"]
+      ["calendar", "📅", "Fechas"],
+      ["profile", "👤", "Perfil"]
     ];
 
     let currentPage = "home";
@@ -404,8 +405,7 @@
 
     function loadData() {
       try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) ||
-          { debts: [], incomes: [], payments: [] };
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { debts: [], incomes: [], payments: [] };
       } catch {
         return { debts: [], incomes: [], payments: [] };
       }
@@ -416,8 +416,7 @@
     }
 
     function makeId() {
-      return (crypto.randomUUID && crypto.randomUUID()) ||
-        String(Date.now() + Math.random());
+      return (crypto.randomUUID && crypto.randomUUID()) || String(Date.now() + Math.random());
     }
 
     function escapeHTML(value = "") {
@@ -489,11 +488,11 @@
         .filter(income => income.received)
         .reduce((sum, income) => sum + Number(income.amount), 0);
 
-      const payments = data.payments
+      const paid = data.payments
         .filter(payment => payment.fromAvailable)
         .reduce((sum, payment) => sum + Number(payment.amount), 0);
 
-      return Math.max(0, received - payments);
+      return Math.max(0, received - paid);
     }
 
     function dueLabel(debt) {
@@ -585,7 +584,7 @@
             </div>
 
             ${planRows.length ? `
-              ${planRows.map(({ debt, index, suggested }) => `
+              ${planRows.slice(0, 6).map(({ debt, index, suggested }) => `
                 <div class="plan-row">
                   <div class="plan-number">${index + 1}</div>
                   <div>
@@ -603,20 +602,18 @@
           </section>
 
           <section class="card">
-            <div class="section-top"><h3>Tu perfil y recordatorios</h3></div>
-            <form id="profileForm">
-              <label>Nombre de quien usa PayPlan
-                <input name="userName" maxlength="50" value="${escapeHTML(name)}" placeholder="Ej. Eladio">
-              </label>
-              <button class="secondary" type="submit">Guardar nombre</button>
-            </form>
-
-            <button class="primary" type="button" data-enable-notifications style="width:100%;margin-top:14px">
-              🔔 Activar recordatorios
-            </button>
-            <p class="muted" style="margin-bottom:0">
-              Te avisaremos 5 días antes y el día del vencimiento mientras PayPlan esté abierto.
-            </p>
+            <div class="section-top">
+              <h3>Acciones rápidas</h3>
+            </div>
+            <div class="list">
+              <button class="secondary" data-go="income">＋ Registrar un ingreso</button>
+              <button class="secondary" data-go="payments">✓ Registrar un pago</button>
+              <button class="secondary" data-go="calendar">▦ Ver fechas importantes</button>
+              <button class="secondary" data-go="profile">👤 Ir a mi perfil</button>
+            </div>
+            <div class="tip" style="margin-top:14px">
+              Registra el ingreso cuando lo recibas. Así el plan usa dinero real disponible y no cuenta ingresos futuros antes de tiempo.
+            </div>
           </section>
         </div>`;
     }
@@ -636,7 +633,7 @@
           <section class="form-card">
             <h3>＋ Agregar una deuda</h3>
             <form id="debtForm">
-              <label>Nombre de la deuda
+              <label>Nombre
                 <input name="name" required maxlength="60" placeholder="Ej. Pago de teléfono">
               </label>
               <label>Monto pendiente ($)
@@ -860,6 +857,38 @@
         </section>`;
     }
 
+    function renderProfile() {
+      const name = getProfileName();
+
+      return `
+        <div class="page-heading">
+          <div>
+            <h2>Perfil</h2>
+            <p class="subtitle">Configura tu nombre y los recordatorios.</p>
+          </div>
+        </div>
+
+        <div class="two-column">
+          <section class="form-card">
+            <h3>👤 Nombre de la persona</h3>
+            <form id="profileForm">
+              <label>Nombre
+                <input name="userName" maxlength="50" value="${escapeHTML(name)}" placeholder="Ej. Eladio">
+              </label>
+              <button class="primary" type="submit">Guardar nombre</button>
+            </form>
+          </section>
+
+          <section class="card">
+            <h3>🔔 Recordatorios</h3>
+            <p class="muted">Cuando actives las notificaciones, la app te avisará con un recordatorio 5 días antes y el día que vence el pago.</p>
+            <button class="primary" data-enable-notifications type="button" style="width:100%;margin-top:8px">
+              Activar notificaciones
+            </button>
+          </section>
+        </div>`;
+    }
+
     async function enableNotifications() {
       if (!("Notification" in window)) {
         alert("Este navegador no admite notificaciones.");
@@ -898,7 +927,7 @@
           new Notification("PayPlan: recordatorio de pago", { body: message });
           localStorage.setItem(reminderKey, "sent");
         } catch {
-          // Si el navegador bloquea la notificación, la app sigue funcionando.
+          // ignorado
         }
       }
     }
@@ -911,7 +940,8 @@
         debts: renderDebts,
         income: renderIncome,
         payments: renderPayments,
-        calendar: renderCalendar
+        calendar: renderCalendar,
+        profile: renderProfile
       };
 
       document.getElementById("app").innerHTML = renderers[currentPage]();
@@ -991,7 +1021,6 @@
 
     document.addEventListener("submit", event => {
       event.preventDefault();
-
       const form = event.target;
       const values = Object.fromEntries(new FormData(form));
 
