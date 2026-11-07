@@ -348,6 +348,16 @@
     .nav-button .nav-icon { font-size: 1.15rem; }
     .nav-button.active { color: var(--royal-dark); background: var(--sky-soft); }
 
+    .home-logo {
+      display: block;
+      width: min(230px, 58vw);
+      max-width: 230px;
+      height: auto;
+      margin: 0 auto 18px;
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
     @media (max-width: 760px) {
       .grid { grid-template-columns: 1fr 1fr; }
       .two-column { grid-template-columns: 1fr; }
@@ -365,6 +375,7 @@
       .bottom-nav { justify-content: space-between; gap: 1px; }
       .nav-button { min-width: 0; flex: 1; padding: 7px 3px; font-size: .68rem; }
       .page-heading { align-items: flex-start; flex-direction: column; }
+      .home-logo { width: min(210px, 70vw); }
     }
   </style>
 </head>
@@ -538,6 +549,7 @@
       const name = getProfileName();
 
       return `
+        <img class="home-logo" src="payplan-logo.png" alt="PayPlan logo">
         <div class="page-heading">
           <div>
             <h2>Hola${name ? `, ${escapeHTML(name)}` : ""} 👋</h2>
