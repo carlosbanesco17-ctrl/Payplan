@@ -2,214 +2,497 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2563EB">
   <title>PayPlan</title>
+
   <style>
     :root {
-      --navy: #173B57;
-      --light-blue: #EAF3F8;
-      --black: #17212B;
-      --teal: #24A88A;
-      --background: #F5F8FA;
+      --royal: #2563EB;
+      --royal-dark: #1D4ED8;
+      --sky: #38BDF8;
+      --sky-soft: #E0F2FE;
+      --ink: #0B1220;
+      --muted: #64748B;
+      --bg: #F3F7FC;
       --white: #FFFFFF;
-      --muted: #647482;
-      --border: #DCE5EB;
-      --orange: #F2A541;
-      --red: #C94C4C;
+      --line: #E2E8F0;
+      --green: #0F9F6E;
+      --green-soft: #E7F8F1;
+      --orange: #B96A05;
+      --orange-soft: #FFF4DF;
+      --red: #C24141;
+      --red-soft: #FFF0F0;
+      --shadow: 0 8px 24px rgba(15, 35, 75, .07);
+      --radius: 18px;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background: var(--background);
-      color: var(--black);
-      font-family: Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    header {
-      background: var(--navy);
-      color: var(--white);
-      padding: 18px max(16px, calc((100% - 1000px) / 2));
+    button, input, select {
+      font: inherit;
     }
 
-    header h1 { margin: 0; }
-    header p { margin: 5px 0 0; color: #D7E7F0; }
-
-    main {
-      max-width: 1000px;
-      margin: 22px auto;
-      padding: 0 16px 100px;
-    }
-
-    nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 2;
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      overflow-x: auto;
-      padding: 9px;
-      background: var(--white);
-      border-top: 1px solid var(--border);
-    }
-
-    nav button {
-      flex: 0 0 auto;
-      padding: 10px 13px;
-      border: 0;
-      border-radius: 9px;
-      color: var(--muted);
-      background: transparent;
+    button {
       cursor: pointer;
     }
 
-    nav button.active {
-      background: var(--light-blue);
-      color: var(--navy);
-      font-weight: bold;
+    .topbar {
+      color: var(--white);
+      background: linear-gradient(115deg, var(--royal-dark), var(--royal) 58%, #168FE5);
+      padding: 18px 20px;
     }
 
-    h2 { color: var(--navy); }
-    h3 { margin-top: 0; color: var(--navy); }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-
-    .card, .form-card {
-      padding: 18px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: var(--white);
-      box-shadow: 0 3px 12px #173b570c;
-      margin-bottom: 14px;
-    }
-
-    .metric { margin: 8px 0; font-size: 1.8rem; font-weight: bold; }
-    .muted { color: var(--muted); font-size: .92rem; }
-    .teal { color: var(--teal); }
-    .orange { color: #A96500; }
-    .red { color: var(--red); }
-
-    .item {
-      padding: 13px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .item:last-child { border-bottom: 0; }
-
-    .row {
+    .topbar-inner {
+      max-width: 1100px;
+      margin: 0 auto;
       display: flex;
+      align-items: center;
       justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    form { display: grid; gap: 12px; }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: var(--royal);
+      background: var(--white);
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: -.03em;
+    }
+
+    .brand p {
+      margin: 2px 0 0;
+      color: #DBEEFF;
+      font-size: .85rem;
+    }
+
+    .today {
+      padding: 9px 13px;
+      border: 1px solid #FFFFFF40;
+      border-radius: 999px;
+      color: #F0F8FF;
+      background: #FFFFFF14;
+      font-size: .85rem;
+      white-space: nowrap;
+    }
+
+    main {
+      max-width: 1100px;
+      min-height: calc(100vh - 150px);
+      margin: 0 auto;
+      padding: 26px 18px 110px;
+    }
+
+    .page-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(1.45rem, 3vw, 1.9rem);
+      letter-spacing: -.04em;
+    }
+
+    h3 {
+      margin: 0 0 14px;
+      font-size: 1.05rem;
+      letter-spacing: -.02em;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: .94rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 15px;
+      margin-bottom: 18px;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .card, .form-card {
+      padding: 19px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: .88rem;
+      font-weight: 600;
+    }
+
+    .metric {
+      margin: 9px 0 4px;
+      color: var(--ink);
+      font-size: clamp(1.65rem, 4vw, 2.15rem);
+      font-weight: 800;
+      letter-spacing: -.05em;
+    }
+
+    .metric.blue { color: var(--royal); }
+    .metric.green { color: var(--green); }
+    .metric.orange { color: var(--orange); }
+
+    .muted {
+      color: var(--muted);
+      font-size: .89rem;
+      line-height: 1.5;
+    }
+
+    .notice {
+      display: flex;
+      gap: 11px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      border: 1px solid #F3D28E;
+      border-radius: 14px;
+      color: #744700;
+      background: var(--orange-soft);
+      line-height: 1.45;
+    }
+
+    .notice-icon { font-size: 1.15rem; }
+
+    .section-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-top h3 { margin: 0; }
+
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--white);
+    }
+
+    .item-title {
+      margin-bottom: 4px;
+      font-weight: 750;
+    }
+
+    .item-details {
+      color: var(--muted);
+      font-size: .87rem;
+      line-height: 1.45;
+    }
+
+    .item-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .amount {
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: var(--royal-dark);
+      background: var(--sky-soft);
+      font-size: .78rem;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .badge.green {
+      color: #08734D;
+      background: var(--green-soft);
+    }
+
+    .badge.orange {
+      color: #855000;
+      background: var(--orange-soft);
+    }
+
+    .badge.red {
+      color: #A12F2F;
+      background: var(--red-soft);
+    }
+
+    .primary, .secondary, .danger, .icon-button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 10px 15px;
+      border: 0;
+      border-radius: 11px;
+      font-weight: 750;
+      transition: transform .12s ease, background .12s ease, box-shadow .12s ease;
+    }
+
+    .primary {
+      color: var(--white);
+      background: var(--royal);
+      box-shadow: 0 5px 12px #2563EB2B;
+    }
+
+    .primary:hover {
+      background: var(--royal-dark);
+      transform: translateY(-1px);
+    }
+
+    .secondary {
+      color: var(--royal-dark);
+      background: var(--sky-soft);
+    }
+
+    .secondary:hover { background: #CDEBFC; }
+
+    .danger {
+      color: var(--red);
+      background: var(--red-soft);
+    }
+
+    .danger:hover { background: #FFE1E1; }
+
+    .small-button {
+      min-height: 36px;
+      padding: 8px 11px;
+      font-size: .84rem;
+    }
+
+    form { display: grid; gap: 13px; }
 
     label {
       display: grid;
       gap: 6px;
-      font-size: .92rem;
-      font-weight: bold;
+      color: var(--ink);
+      font-size: .88rem;
+      font-weight: 700;
     }
 
     input, select {
       width: 100%;
-      padding: 11px;
-      border: 1px solid #C8D4DC;
-      border-radius: 8px;
+      min-height: 45px;
+      padding: 10px 12px;
+      border: 1px solid #CBD5E1;
+      border-radius: 10px;
+      outline: none;
+      color: var(--ink);
       background: var(--white);
-      color: var(--black);
-      font: inherit;
     }
 
-    .checkbox {
+    input:focus, select:focus {
+      border-color: var(--royal);
+      box-shadow: 0 0 0 3px #2563EB20;
+    }
+
+    .checkbox-label {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-weight: normal;
-    }
-    .checkbox input { width: auto; }
-
-    button.action {
-      padding: 11px 14px;
-      border: 0;
-      border-radius: 8px;
-      background: var(--navy);
-      color: var(--white);
-      cursor: pointer;
-      font-weight: bold;
+      gap: 9px;
+      font-weight: 550;
     }
 
-    button.secondary {
-      padding: 9px 11px;
-      border: 0;
-      border-radius: 8px;
-      background: var(--light-blue);
-      color: var(--navy);
-      cursor: pointer;
-      font-weight: bold;
+    .checkbox-label input {
+      width: 17px;
+      min-height: 17px;
+      accent-color: var(--royal);
     }
 
-    button.delete {
-      padding: 8px 10px;
-      border: 0;
-      border-radius: 8px;
-      background: #FFF0F0;
-      color: var(--red);
-      cursor: pointer;
+    .empty {
+      padding: 18px;
+      border: 1px dashed #CBD5E1;
+      border-radius: 13px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.5;
     }
 
-    .notice {
-      padding: 12px;
-      margin-bottom: 14px;
-      border: 1px solid #F3D69F;
+    .plan-row {
+      display: grid;
+      grid-template-columns: 32px 1fr auto;
+      align-items: center;
+      gap: 11px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .plan-row:last-child { border-bottom: 0; }
+
+    .plan-number {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
       border-radius: 10px;
-      background: #FFF6E8;
+      color: var(--royal-dark);
+      background: var(--sky-soft);
+      font-weight: 800;
     }
 
-    .empty { padding: 10px 0; color: var(--muted); }
+    .plan-amount {
+      color: var(--royal-dark);
+      font-weight: 800;
+      white-space: nowrap;
+    }
 
-    @media (max-width: 600px) {
-      nav { justify-content: flex-start; }
-      .row { align-items: flex-start; }
+    .tip {
+      padding: 12px 14px;
+      border-radius: 12px;
+      color: #155073;
+      background: var(--sky-soft);
+      font-size: .88rem;
+      line-height: 1.5;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      z-index: 5;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      padding: 9px 12px max(9px, env(safe-area-inset-bottom));
+      border-top: 1px solid var(--line);
+      background: #FFFFFFF5;
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-button {
+      display: grid;
+      justify-items: center;
+      gap: 3px;
+      min-width: 74px;
+      padding: 7px 10px;
+      border: 0;
+      border-radius: 12px;
+      color: var(--muted);
+      background: transparent;
+      font-size: .74rem;
+      font-weight: 650;
+    }
+
+    .nav-button .nav-icon { font-size: 1.15rem; }
+
+    .nav-button.active {
+      color: var(--royal-dark);
+      background: var(--sky-soft);
+    }
+
+    @media (max-width: 760px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+      .two-column { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 520px) {
+      .topbar { padding: 14px 15px; }
+      .topbar-inner { align-items: flex-start; }
+      .today { font-size: .75rem; padding: 7px 9px; }
+      main { padding: 20px 13px 105px; }
+      .grid { grid-template-columns: 1fr; gap: 11px; }
+      .card, .form-card { padding: 16px; }
+      .list-item { align-items: flex-start; }
+      .item-actions { flex-direction: column; align-items: flex-end; }
+      .bottom-nav { justify-content: space-between; gap: 1px; }
+      .nav-button { min-width: 0; flex: 1; padding: 7px 3px; font-size: .68rem; }
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <h1>PayPlan</h1>
-    <p>Organiza tus ingresos, deudas y pagos.</p>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">P</div>
+        <div>
+          <h1>PayPlan</h1>
+          <p>Tu dinero, mejor organizado</p>
+        </div>
+      </div>
+      <div class="today" id="todayLabel"></div>
+    </div>
   </header>
 
   <main id="app"></main>
-  <nav id="nav"></nav>
+  <nav class="bottom-nav" id="nav" aria-label="Navegación principal"></nav>
 
   <script>
-    const STORAGE_KEY = "payplan-confirmed-payments-v1";
+    const STORAGE_KEY = "payplan-modern-v1";
+
     const pages = [
-      ["home", "Inicio"],
-      ["debts", "Deudas"],
-      ["income", "Ingresos"],
-      ["payments", "Pagos"],
-      ["calendar", "Calendario"],
-      ["help", "Ayuda"]
+      ["home", "🏠", "Inicio"],
+      ["debts", "📋", "Deudas"],
+      ["income", "💵", "Ingresos"],
+      ["payments", "✅", "Pagos"],
+      ["calendar", "📅", "Fechas"]
     ];
 
-    let page = "home";
+    let currentPage = "home";
+    let selectedDebtId = "";
     let data = loadData();
 
     function loadData() {
       try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) ||
-          { debts: [], incomes: [], payments: [] };
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        return saved || { debts: [], incomes: [], payments: [] };
       } catch {
         return { debts: [], incomes: [], payments: [] };
       }
@@ -220,15 +503,17 @@
     }
 
     function makeId() {
-      return crypto.randomUUID
-        ? crypto.randomUUID()
-        : String(Date.now() + Math.random());
+      return (crypto.randomUUID && crypto.randomUUID()) ||
+        String(Date.now() + Math.random());
     }
 
     function escapeHTML(value = "") {
       return String(value).replace(/[&<>"']/g, char => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;",
-        '"': "&quot;", "'": "&#039;"
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
       }[char]));
     }
 
@@ -245,7 +530,7 @@
       return new Date(year, month - 1, day);
     }
 
-    function today() {
+    function todayString() {
       const now = new Date();
       return [
         now.getFullYear(),
@@ -257,18 +542,20 @@
     function formatDate(value) {
       const date = localDate(value);
       return date ? date.toLocaleDateString("es", {
-        day: "numeric", month: "short", year: "numeric"
+        day: "numeric",
+        month: "short",
+        year: "numeric"
       }) : "Sin fecha";
     }
 
     function daysUntil(value) {
       const due = localDate(value);
       if (!due) return Infinity;
-      const now = localDate(today());
-      return Math.round((due - now) / 86400000);
+      const today = localDate(todayString());
+      return Math.round((due - today) / 86400000);
     }
 
-    function remaining(debt) {
+    function debtRemaining(debt) {
       const paid = data.payments
         .filter(payment => payment.debtId === debt.id)
         .reduce((sum, payment) => sum + Number(payment.amount), 0);
@@ -276,8 +563,8 @@
     }
 
     function activeDebts() {
-      return data.debts
-        .filter(debt => remaining(debt) > 0)
+      return [...data.debts]
+        .filter(debt => debtRemaining(debt) > 0)
         .sort((a, b) => a.dueDate.localeCompare(b.dueDate));
     }
 
@@ -285,143 +572,259 @@
       const received = data.incomes
         .filter(income => income.received)
         .reduce((sum, income) => sum + Number(income.amount), 0);
-      const paid = data.payments
+      const payments = data.payments
+        .filter(payment => payment.fromAvailable)
         .reduce((sum, payment) => sum + Number(payment.amount), 0);
-      return received - paid;
+      return Math.max(0, received - payments);
     }
 
-    function dueText(debt) {
+    function dueLabel(debt) {
       const days = daysUntil(debt.dueDate);
       if (days < 0) return `Venció hace ${Math.abs(days)} día(s)`;
       if (days === 0) return "Vence hoy";
-      return `Vence en ${days} día(s)`;
+      if (days === 1) return "Vence mañana";
+      return `Vence en ${days} días`;
+    }
+
+    function dueBadgeClass(debt) {
+      const days = daysUntil(debt.dueDate);
+      if (days < 0) return "red";
+      if (days <= 5) return "orange";
+      return "";
     }
 
     function renderNav() {
-      document.getElementById("nav").innerHTML = pages.map(([key, label]) =>
-        `<button class="${page === key ? "active" : ""}" data-page="${key}">${label}</button>`
-      ).join("");
+      document.getElementById("nav").innerHTML = pages.map(([key, icon, label]) => `
+        <button class="nav-button ${currentPage === key ? "active" : ""}" data-page="${key}">
+          <span class="nav-icon">${icon}</span>
+          <span>${label}</span>
+        </button>
+      `).join("");
     }
 
     function renderHome() {
       const debts = activeDebts();
-      const next = debts[0];
-      const soon = debts.filter(debt => {
+      const nextDebt = debts[0];
+      const reminders = debts.filter(debt => {
         const days = daysUntil(debt.dueDate);
         return days >= 0 && days <= 5;
       });
+      const available = availableMoney();
+
+      let left = available;
+      const planRows = debts.map((debt, index) => {
+        const amount = Math.min(left, debtRemaining(debt));
+        left = Math.max(0, left - amount);
+        return { debt, index, amount };
+      });
 
       return `
-        <h2>Inicio</h2>
-        ${soon.length ? `<div class="notice">🔔 ${soon.length} pago(s) vencen dentro de los próximos 5 días.</div>` : ""}
+        <div class="page-heading">
+          <div>
+            <h2>Hola, bienvenido 👋</h2>
+            <p class="subtitle">Mira tus pagos y organiza tu dinero en un solo lugar.</p>
+          </div>
+          <button class="primary" data-go="debts">＋ Agregar deuda</button>
+        </div>
+
+        ${reminders.length ? `
+          <div class="notice">
+            <span class="notice-icon">🔔</span>
+            <span>
+              <strong>Atención:</strong> ${reminders.length} pago(s) vencen dentro de los próximos 5 días.
+              Revisa las fechas para planearlos a tiempo.
+            </span>
+          </div>
+        ` : ""}
+
         <div class="grid">
           <section class="card">
-            <div class="muted">Dinero recibido disponible</div>
-            <div class="metric teal">${money(availableMoney())}</div>
+            <div class="metric-label">Dinero recibido disponible</div>
+            <div class="metric green">${money(available)}</div>
             <div class="muted">Solo cuenta ingresos marcados como recibidos.</div>
           </section>
+
           <section class="card">
-            <div class="muted">Próximo vencimiento</div>
-            ${next ? `
-              <div class="metric orange">${money(remaining(next))}</div>
-              <strong>${escapeHTML(next.name)}</strong>
-              <div class="muted">${dueText(next)} · ${formatDate(next.dueDate)}</div>
-            ` : `<p class="empty">No tienes deudas pendientes.</p>`}
+            <div class="metric-label">Deuda pendiente total</div>
+            <div class="metric blue">${money(debts.reduce((sum, debt) => sum + debtRemaining(debt), 0))}</div>
+            <div class="muted">${debts.length} deuda(s) pendiente(s).</div>
+          </section>
+
+          <section class="card">
+            <div class="metric-label">Próximo vencimiento</div>
+            ${nextDebt ? `
+              <div class="metric orange">${money(debtRemaining(nextDebt))}</div>
+              <div class="item-title">${escapeHTML(nextDebt.name)}</div>
+              <div class="muted">${dueLabel(nextDebt)} · ${formatDate(nextDebt.dueDate)}</div>
+            ` : `<div class="metric blue">¡Muy bien!</div><div class="muted">No tienes deudas pendientes.</div>`}
           </section>
         </div>
 
-        <section class="card">
-          <h3>Orden recomendado</h3>
-          ${debts.length ? debts.map(debt => `
-            <div class="item row">
-              <div>
-                <strong>${escapeHTML(debt.name)}</strong>
-                <div class="muted">${dueText(debt)} · ${formatDate(debt.dueDate)}</div>
-              </div>
-              <strong>${money(remaining(debt))}</strong>
+        <div class="two-column">
+          <section class="card">
+            <div class="section-top">
+              <h3>Tu orden de pago</h3>
+              <span class="badge">Por vencimiento</span>
             </div>
-          `).join("") : `<p class="empty">Agrega una deuda para ver tu plan.</p>`}
-          <p class="muted">El orden se basa en la fecha de vencimiento. Revisa las cuotas mínimas de tus deudas.</p>
-        </section>`;
+
+            ${planRows.length ? `
+              <div>
+                ${planRows.slice(0, 6).map(({ debt, index, amount }) => `
+                  <div class="plan-row">
+                    <div class="plan-number">${index + 1}</div>
+                    <div>
+                      <div class="item-title">${escapeHTML(debt.name)}</div>
+                      <div class="item-details">
+                        <span class="badge ${dueBadgeClass(debt)}">${dueLabel(debt)}</span>
+                        <span> · Saldo ${money(debtRemaining(debt))}</span>
+                      </div>
+                    </div>
+                    <div class="plan-amount">${money(amount)}</div>
+                  </div>
+                `).join("")}
+              </div>
+              <p class="muted">La cantidad azul es una sugerencia usando el dinero recibido disponible, empezando por lo que vence antes. Confirma los pagos antes de realizarlos.</p>
+            ` : `<div class="empty">Agrega una deuda para crear tu orden de pago.</div>`}
+          </section>
+
+          <section class="card">
+            <div class="section-top">
+              <h3>Acciones rápidas</h3>
+            </div>
+            <div class="list">
+              <button class="secondary" data-go="income">＋ Registrar un ingreso</button>
+              <button class="secondary" data-go="payments">✓ Registrar un pago</button>
+              <button class="secondary" data-go="calendar">▦ Ver fechas importantes</button>
+            </div>
+            <div class="tip" style="margin-top:14px">
+              Registra el ingreso cuando lo recibas. Así el plan usa dinero real disponible y no cuenta ingresos futuros antes de tiempo.
+            </div>
+          </section>
+        </div>`;
     }
 
     function renderDebts() {
       const debts = activeDebts();
+
       return `
-        <h2>Mis deudas</h2>
-        <div class="grid">
+        <div class="page-heading">
+          <div>
+            <h2>Mis deudas</h2>
+            <p class="subtitle">Agrega tus pagos y revisa primero los vencimientos más cercanos.</p>
+          </div>
+        </div>
+
+        <div class="two-column">
           <section class="form-card">
-            <h3>Agregar deuda</h3>
+            <h3>＋ Agregar una deuda</h3>
             <form id="debtForm">
-              <label>Nombre de la deuda
-                <input name="name" required placeholder="Ej. Tarjeta de crédito">
+              <label>Nombre
+                <input name="name" required maxlength="60" placeholder="Ej. Pago de teléfono">
               </label>
               <label>Monto pendiente ($)
-                <input name="amount" type="number" min="0.01" step="0.01" required>
+                <input name="amount" type="number" min="0.01" step="0.01" required placeholder="50.00">
               </label>
-              <label>Pago mínimo sugerido ($), opcional
-                <input name="minimum" type="number" min="0" step="0.01">
+              <label>Pago mínimo o cuota ($), opcional
+                <input name="minimum" type="number" min="0" step="0.01" placeholder="Ej. 25.00">
               </label>
               <label>Fecha de vencimiento
                 <input name="dueDate" type="date" required>
               </label>
-              <button class="action">Guardar deuda</button>
+              <button class="primary" type="submit">Guardar deuda</button>
             </form>
           </section>
 
           <section class="card">
-            <h3>Deudas por vencer</h3>
-            ${debts.length ? debts.map(debt => `
-              <div class="item">
-                <div class="row">
-                  <strong>${escapeHTML(debt.name)}</strong>
-                  <strong>${money(remaining(debt))}</strong>
-                </div>
-                <div class="muted">${dueText(debt)} · ${formatDate(debt.dueDate)}</div>
-                ${debt.minimum ? `<div class="muted">Pago mínimo indicado: ${money(debt.minimum)}</div>` : ""}
+            <div class="section-top">
+              <h3>Deudas pendientes</h3>
+              <span class="badge">${debts.length} activa(s)</span>
+            </div>
+
+            ${debts.length ? `
+              <div class="list">
+                ${debts.map(debt => `
+                  <div class="list-item">
+                    <div>
+                      <div class="item-title">${escapeHTML(debt.name)}</div>
+                      <div class="item-details">
+                        <span class="badge ${dueBadgeClass(debt)}">${dueLabel(debt)}</span>
+                        <div style="margin-top:7px">Vence: ${formatDate(debt.dueDate)}</div>
+                        ${debt.minimum > 0 ? `<div>Cuota indicada: ${money(debt.minimum)}</div>` : ""}
+                      </div>
+                    </div>
+                    <div class="item-actions">
+                      <span class="amount">${money(debtRemaining(debt))}</span>
+                      <button class="primary small-button" data-pay="${debt.id}">Registrar pago</button>
+                      <button class="danger small-button" data-delete-debt="${debt.id}" aria-label="Eliminar deuda">Eliminar</button>
+                    </div>
+                  </div>
+                `).join("")}
               </div>
-            `).join("") : `<p class="empty">Todavía no agregas deudas.</p>`}
+            ` : `<div class="empty">Todavía no tienes deudas agregadas.<br>Usa el formulario para crear la primera.</div>`}
           </section>
         </div>`;
     }
 
     function renderIncome() {
       const incomes = [...data.incomes].sort((a, b) => a.date.localeCompare(b.date));
+
       return `
-        <h2>Mis ingresos</h2>
-        <div class="grid">
+        <div class="page-heading">
+          <div>
+            <h2>Mis ingresos</h2>
+            <p class="subtitle">Anota cuándo y cuánto recibes para planear mejor tus pagos.</p>
+          </div>
+        </div>
+
+        <div class="two-column">
           <section class="form-card">
-            <h3>Agregar ingreso</h3>
+            <h3>＋ Agregar un ingreso</h3>
             <form id="incomeForm">
               <label>Descripción
-                <input name="name" required placeholder="Ej. Pago del trabajo">
+                <input name="name" required maxlength="60" placeholder="Ej. Pago del trabajo">
               </label>
               <label>Monto ($)
-                <input name="amount" type="number" min="0.01" step="0.01" required>
+                <input name="amount" type="number" min="0.01" step="0.01" required placeholder="300.00">
               </label>
-              <label>Fecha de pago
+              <label>Fecha en que lo recibes
                 <input name="date" type="date" required>
               </label>
-              <label class="checkbox">
+              <label class="checkbox-label">
                 <input name="received" type="checkbox">
                 Ya recibí este dinero
               </label>
-              <button class="action">Guardar ingreso</button>
+              <button class="primary" type="submit">Guardar ingreso</button>
             </form>
-            <p class="muted">Un ingreso futuro aparece en el calendario, pero no se cuenta como dinero disponible hasta marcarlo recibido.</p>
+            <p class="muted">Los ingresos futuros aparecen como programados, pero no se suman al dinero disponible hasta que marques que ya los recibiste.</p>
           </section>
 
           <section class="card">
-            <h3>Ingresos registrados</h3>
-            ${incomes.length ? incomes.map(income => `
-              <div class="item row">
-                <div>
-                  <strong>${escapeHTML(income.name)}</strong>
-                  <div class="muted">${formatDate(income.date)} · ${income.received ? "Recibido" : "Programado"}</div>
-                </div>
-                <strong class="${income.received ? "teal" : ""}">${money(income.amount)}</strong>
+            <div class="section-top">
+              <h3>Ingresos registrados</h3>
+              <span class="badge">${incomes.length}</span>
+            </div>
+
+            ${incomes.length ? `
+              <div class="list">
+                ${incomes.map(income => `
+                  <div class="list-item">
+                    <div>
+                      <div class="item-title">${escapeHTML(income.name)}</div>
+                      <div class="item-details">
+                        ${formatDate(income.date)} ·
+                        <span class="badge ${income.received ? "green" : ""}">
+                          ${income.received ? "Recibido" : "Programado"}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="item-actions">
+                      <span class="amount">${money(income.amount)}</span>
+                      <button class="danger small-button" data-delete-income="${income.id}">Eliminar</button>
+                    </div>
+                  </div>
+                `).join("")}
               </div>
-            `).join("") : `<p class="empty">Aún no has registrado ingresos.</p>`}
+            ` : `<div class="empty">Aún no has registrado ingresos.<br>Por ejemplo, agrega tu pago de $300 del día 15.</div>`}
           </section>
         </div>`;
     }
@@ -431,45 +834,62 @@
       const payments = [...data.payments].sort((a, b) => b.date.localeCompare(a.date));
 
       return `
-        <h2>Registrar pago</h2>
-        <div class="grid">
+        <div class="page-heading">
+          <div>
+            <h2>Registrar pago</h2>
+            <p class="subtitle">Confirma un pago para actualizar el saldo de tu deuda.</p>
+          </div>
+        </div>
+
+        <div class="two-column">
           <section class="form-card">
-            <h3>Nuevo pago</h3>
+            <h3>✓ Nuevo pago</h3>
             ${debts.length ? `
               <form id="paymentForm">
-                <label>Deuda
+                <label>Selecciona la deuda
                   <select name="debtId" required>
                     ${debts.map(debt => `
-                      <option value="${debt.id}">
-                        ${escapeHTML(debt.name)} — saldo ${money(remaining(debt))}
+                      <option value="${debt.id}" ${selectedDebtId === debt.id ? "selected" : ""}>
+                        ${escapeHTML(debt.name)} — saldo ${money(debtRemaining(debt))}
                       </option>
                     `).join("")}
                   </select>
                 </label>
-                <label>Monto pagado ($)
-                  <input name="amount" type="number" min="0.01" step="0.01" required>
+                <label>Monto que pagaste ($)
+                  <input name="amount" type="number" min="0.01" step="0.01" required placeholder="Ej. 50.00">
                 </label>
                 <label>Fecha del pago
-                  <input name="date" type="date" value="${today()}" required>
+                  <input name="date" type="date" value="${todayString()}" required>
                 </label>
-                <button class="action">Registrar pago</button>
+                <label class="checkbox-label">
+                  <input name="fromAvailable" type="checkbox" checked>
+                  Descontar del dinero disponible
+                </label>
+                <button class="primary" type="submit">Registrar pago</button>
               </form>
-            ` : `<p class="empty">No tienes deudas pendientes para pagar.</p>`}
+            ` : `<div class="empty">No tienes deudas pendientes.<br>Agrega una deuda para registrar un pago.</div>`}
           </section>
 
           <section class="card">
-            <h3>Historial de pagos</h3>
-            ${payments.length ? payments.map(payment => {
-              const debt = data.debts.find(item => item.id === payment.debtId);
-              return `
-                <div class="item row">
-                  <div>
-                    <strong>${escapeHTML(debt?.name || "Deuda")}</strong>
-                    <div class="muted">Pago confirmado · ${formatDate(payment.date)}</div>
-                  </div>
-                  <strong class="teal">${money(payment.amount)}</strong>
-                </div>`;
-            }).join("") : `<p class="empty">Todavía no hay pagos registrados.</p>`}
+            <div class="section-top">
+              <h3>Historial de pagos</h3>
+              <span class="badge">${payments.length}</span>
+            </div>
+            ${payments.length ? `
+              <div class="list">
+                ${payments.map(payment => {
+                  const debt = data.debts.find(item => item.id === payment.debtId);
+                  return `
+                    <div class="list-item">
+                      <div>
+                        <div class="item-title">${escapeHTML(debt?.name || "Deuda")}</div>
+                        <div class="item-details">Confirmado · ${formatDate(payment.date)}</div>
+                      </div>
+                      <span class="amount" style="color:var(--green)">${money(payment.amount)}</span>
+                    </div>`;
+                }).join("")}
+              </div>
+            ` : `<div class="empty">Los pagos que confirmes aparecerán aquí.</div>`}
           </section>
         </div>`;
     }
@@ -479,105 +899,160 @@
         ...activeDebts().map(debt => ({
           date: debt.dueDate,
           name: debt.name,
-          amount: remaining(debt),
-          type: "Vencimiento"
+          amount: debtRemaining(debt),
+          type: "Vencimiento",
+          color: "orange"
         })),
         ...data.incomes.map(income => ({
           date: income.date,
           name: income.name,
           amount: Number(income.amount),
-          type: income.received ? "Ingreso recibido" : "Ingreso programado"
+          type: income.received ? "Ingreso recibido" : "Ingreso programado",
+          color: income.received ? "green" : ""
         }))
       ].sort((a, b) => a.date.localeCompare(b.date));
 
       return `
-        <h2>Calendario</h2>
-        <section class="card">
-          <h3>Fechas importantes</h3>
-          ${events.length ? events.map(event => `
-            <div class="item row">
-              <div>
-                <strong>${escapeHTML(event.name)}</strong>
-                <div class="muted">${event.type} · ${formatDate(event.date)}</div>
-              </div>
-              <strong>${money(event.amount)}</strong>
-            </div>
-          `).join("") : `<p class="empty">Agrega ingresos o deudas para ver sus fechas.</p>`}
-        </section>`;
-    }
+        <div class="page-heading">
+          <div>
+            <h2>Fechas importantes</h2>
+            <p class="subtitle">Consulta los vencimientos y los ingresos que tienes registrados.</p>
+          </div>
+        </div>
 
-    function renderHelp() {
-      return `
-        <h2>Ayuda</h2>
         <section class="card">
-          <h3>Cómo registrar un pago</h3>
-          <ol>
-            <li>Agrega la deuda en la sección <strong>Deudas</strong>.</li>
-            <li>Abre <strong>Pagos</strong> y selecciona esa deuda.</li>
-            <li>Escribe el monto y la fecha del pago.</li>
-            <li>Presiona <strong>Registrar pago</strong> y confirma.</li>
-          </ol>
-          <p>Al confirmar, el pago queda en el historial y se resta del saldo pendiente de la deuda.</p>
-          <p class="muted">PayPlan registra tus pagos; no transfiere dinero ni paga a tus acreedores.</p>
-          <button class="delete" id="clearData">Borrar todos los datos de este navegador</button>
+          ${events.length ? `
+            <div class="list">
+              ${events.map(event => `
+                <div class="list-item">
+                  <div>
+                    <div class="item-title">${escapeHTML(event.name)}</div>
+                    <div class="item-details">${event.type} · ${formatDate(event.date)}</div>
+                  </div>
+                  <div class="item-actions">
+                    <span class="badge ${event.color}">${event.type}</span>
+                    <span class="amount">${money(event.amount)}</span>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          ` : `<div class="empty">Todavía no hay fechas.<br>Agrega una deuda o un ingreso para verlos aquí.</div>`}
         </section>`;
     }
 
     function render() {
       renderNav();
+
       const renderers = {
         home: renderHome,
         debts: renderDebts,
         income: renderIncome,
         payments: renderPayments,
-        calendar: renderCalendar,
-        help: renderHelp
+        calendar: renderCalendar
       };
-      document.getElementById("app").innerHTML = renderers[page]();
+
+      document.getElementById("app").innerHTML = renderers[currentPage]();
+      document.getElementById("todayLabel").textContent =
+        new Date().toLocaleDateString("es", {
+          weekday: "short",
+          day: "numeric",
+          month: "short"
+        });
     }
 
     document.addEventListener("click", event => {
       const pageButton = event.target.closest("[data-page]");
+      const goButton = event.target.closest("[data-go]");
+      const payButton = event.target.closest("[data-pay]");
+      const deleteDebtButton = event.target.closest("[data-delete-debt]");
+      const deleteIncomeButton = event.target.closest("[data-delete-income]");
+
       if (pageButton) {
-        page = pageButton.dataset.page;
+        currentPage = pageButton.dataset.page;
+        selectedDebtId = "";
         render();
+        return;
       }
 
-      if (event.target.id === "clearData" &&
-          confirm("¿Seguro que quieres borrar todas tus deudas, ingresos y pagos?")) {
-        data = { debts: [], incomes: [], payments: [] };
+      if (goButton) {
+        currentPage = goButton.dataset.go;
+        render();
+        return;
+      }
+
+      if (payButton) {
+        selectedDebtId = payButton.dataset.pay;
+        currentPage = "payments";
+        render();
+        return;
+      }
+
+      if (deleteDebtButton) {
+        const debt = data.debts.find(item => item.id === deleteDebtButton.dataset.deleteDebt);
+        if (!debt || !confirm(`¿Eliminar "${debt.name}" y su historial de pagos?`)) return;
+
+        data.debts = data.debts.filter(item => item.id !== debt.id);
+        data.payments = data.payments.filter(payment => payment.debtId !== debt.id);
         saveData();
-        page = "home";
+        render();
+        return;
+      }
+
+      if (deleteIncomeButton) {
+        const income = data.incomes.find(item => item.id === deleteIncomeButton.dataset.deleteIncome);
+        if (!income || !confirm(`¿Eliminar el ingreso "${income.name}"?`)) return;
+
+        data.incomes = data.incomes.filter(item => item.id !== income.id);
+        saveData();
         render();
       }
     });
 
     document.addEventListener("submit", event => {
       event.preventDefault();
+
       const form = event.target;
       const values = Object.fromEntries(new FormData(form));
 
       if (form.id === "debtForm") {
+        const amount = Number(values.amount);
+        const minimum = Number(values.minimum) || 0;
+
+        if (amount <= 0 || minimum < 0) {
+          alert("Escribe montos válidos.");
+          return;
+        }
+
         data.debts.push({
           id: makeId(),
           name: values.name.trim(),
-          amount: Number(values.amount),
-          minimum: Number(values.minimum) || 0,
+          amount,
+          minimum,
           dueDate: values.dueDate
         });
+
         saveData();
+        currentPage = "debts";
         render();
       }
 
       if (form.id === "incomeForm") {
+        const amount = Number(values.amount);
+        if (amount <= 0) {
+          alert("El monto del ingreso debe ser mayor que cero.");
+          return;
+        }
+
         data.incomes.push({
           id: makeId(),
           name: values.name.trim(),
-          amount: Number(values.amount),
+          amount,
           date: values.date,
           received: form.elements.received.checked
         });
+
         saveData();
+        currentPage = "income";
         render();
       }
 
@@ -585,13 +1060,13 @@
         const debt = data.debts.find(item => item.id === values.debtId);
         const amount = Number(values.amount);
 
-        if (!debt || amount <= 0 || amount > remaining(debt)) {
+        if (!debt || amount <= 0 || amount > debtRemaining(debt)) {
           alert("El monto debe ser mayor que cero y no superar el saldo pendiente.");
           return;
         }
 
         const approved = confirm(
-          `¿Confirmas este pago de ${money(amount)} para "${debt.name}"?`
+          `¿Confirmas el pago de ${money(amount)} para "${debt.name}"?`
         );
 
         if (!approved) return;
@@ -600,11 +1075,13 @@
           id: makeId(),
           debtId: debt.id,
           amount,
-          date: values.date
+          date: values.date,
+          fromAvailable: form.elements.fromAvailable.checked
         });
 
         saveData();
-        alert(`Pago confirmado. Saldo pendiente: ${money(remaining(debt))}`);
+        selectedDebtId = "";
+        alert(`Pago registrado. Saldo pendiente: ${money(debtRemaining(debt))}`);
         render();
       }
     });
