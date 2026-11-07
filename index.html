@@ -10,7 +10,6 @@
     :root {
       --royal: #2563EB;
       --royal-dark: #1D4ED8;
-      --sky: #38BDF8;
       --sky-soft: #E0F2FE;
       --ink: #0B1220;
       --muted: #64748B;
@@ -33,16 +32,11 @@
       margin: 0;
       color: var(--ink);
       background: var(--bg);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    button, input, select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
 
     .topbar {
       color: var(--white);
@@ -59,11 +53,7 @@
       gap: 16px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .brand { display: flex; align-items: center; gap: 12px; }
 
     .brand-mark {
       display: grid;
@@ -77,17 +67,8 @@
       font-weight: 900;
     }
 
-    .brand h1 {
-      margin: 0;
-      font-size: 1.35rem;
-      letter-spacing: -.03em;
-    }
-
-    .brand p {
-      margin: 2px 0 0;
-      color: #DBEEFF;
-      font-size: .85rem;
-    }
+    .brand h1 { margin: 0; font-size: 1.35rem; }
+    .brand p { margin: 2px 0 0; color: #DBEEFF; font-size: .85rem; }
 
     .today {
       padding: 9px 13px;
@@ -121,17 +102,8 @@
       letter-spacing: -.04em;
     }
 
-    h3 {
-      margin: 0 0 14px;
-      font-size: 1.05rem;
-      letter-spacing: -.02em;
-    }
-
-    .subtitle {
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: .94rem;
-    }
+    h3 { margin: 0 0 14px; font-size: 1.05rem; }
+    .subtitle { margin: 6px 0 0; color: var(--muted); font-size: .94rem; }
 
     .grid {
       display: grid;
@@ -155,11 +127,7 @@
       box-shadow: var(--shadow);
     }
 
-    .metric-label {
-      color: var(--muted);
-      font-size: .88rem;
-      font-weight: 600;
-    }
+    .metric-label { color: var(--muted); font-size: .88rem; font-weight: 600; }
 
     .metric {
       margin: 9px 0 4px;
@@ -173,11 +141,7 @@
     .metric.green { color: var(--green); }
     .metric.orange { color: var(--orange); }
 
-    .muted {
-      color: var(--muted);
-      font-size: .89rem;
-      line-height: 1.5;
-    }
+    .muted { color: var(--muted); font-size: .89rem; line-height: 1.5; }
 
     .notice {
       display: flex;
@@ -192,8 +156,6 @@
       line-height: 1.45;
     }
 
-    .notice-icon { font-size: 1.15rem; }
-
     .section-top {
       display: flex;
       justify-content: space-between;
@@ -204,10 +166,7 @@
 
     .section-top h3 { margin: 0; }
 
-    .list {
-      display: grid;
-      gap: 10px;
-    }
+    .list { display: grid; gap: 10px; }
 
     .list-item {
       display: flex;
@@ -220,16 +179,8 @@
       background: var(--white);
     }
 
-    .item-title {
-      margin-bottom: 4px;
-      font-weight: 750;
-    }
-
-    .item-details {
-      color: var(--muted);
-      font-size: .87rem;
-      line-height: 1.45;
-    }
+    .item-title { margin-bottom: 4px; font-weight: 750; }
+    .item-details { color: var(--muted); font-size: .87rem; line-height: 1.45; }
 
     .item-actions {
       display: flex;
@@ -239,10 +190,7 @@
       justify-content: flex-end;
     }
 
-    .amount {
-      font-weight: 800;
-      white-space: nowrap;
-    }
+    .amount { font-weight: 800; white-space: nowrap; }
 
     .badge {
       display: inline-flex;
@@ -257,22 +205,11 @@
       white-space: nowrap;
     }
 
-    .badge.green {
-      color: #08734D;
-      background: var(--green-soft);
-    }
+    .badge.green { color: #08734D; background: var(--green-soft); }
+    .badge.orange { color: #855000; background: var(--orange-soft); }
+    .badge.red { color: #A12F2F; background: var(--red-soft); }
 
-    .badge.orange {
-      color: #855000;
-      background: var(--orange-soft);
-    }
-
-    .badge.red {
-      color: #A12F2F;
-      background: var(--red-soft);
-    }
-
-    .primary, .secondary, .danger, .icon-button {
+    .primary, .secondary, .danger {
       display: inline-flex;
       justify-content: center;
       align-items: center;
@@ -282,7 +219,7 @@
       border: 0;
       border-radius: 11px;
       font-weight: 750;
-      transition: transform .12s ease, background .12s ease, box-shadow .12s ease;
+      transition: transform .12s ease, background .12s ease;
     }
 
     .primary {
@@ -291,30 +228,12 @@
       box-shadow: 0 5px 12px #2563EB2B;
     }
 
-    .primary:hover {
-      background: var(--royal-dark);
-      transform: translateY(-1px);
-    }
-
-    .secondary {
-      color: var(--royal-dark);
-      background: var(--sky-soft);
-    }
-
+    .primary:hover { background: var(--royal-dark); transform: translateY(-1px); }
+    .secondary { color: var(--royal-dark); background: var(--sky-soft); }
     .secondary:hover { background: #CDEBFC; }
-
-    .danger {
-      color: var(--red);
-      background: var(--red-soft);
-    }
-
+    .danger { color: var(--red); background: var(--red-soft); }
     .danger:hover { background: #FFE1E1; }
-
-    .small-button {
-      min-height: 36px;
-      padding: 8px 11px;
-      font-size: .84rem;
-    }
+    .small-button { min-height: 36px; padding: 8px 11px; font-size: .84rem; }
 
     form { display: grid; gap: 13px; }
 
@@ -386,11 +305,7 @@
       font-weight: 800;
     }
 
-    .plan-amount {
-      color: var(--royal-dark);
-      font-weight: 800;
-      white-space: nowrap;
-    }
+    .plan-amount { color: var(--royal-dark); font-weight: 800; white-space: nowrap; }
 
     .tip {
       padding: 12px 14px;
@@ -431,11 +346,7 @@
     }
 
     .nav-button .nav-icon { font-size: 1.15rem; }
-
-    .nav-button.active {
-      color: var(--royal-dark);
-      background: var(--sky-soft);
-    }
+    .nav-button.active { color: var(--royal-dark); background: var(--sky-soft); }
 
     @media (max-width: 760px) {
       .grid { grid-template-columns: 1fr 1fr; }
@@ -453,6 +364,7 @@
       .item-actions { flex-direction: column; align-items: flex-end; }
       .bottom-nav { justify-content: space-between; gap: 1px; }
       .nav-button { min-width: 0; flex: 1; padding: 7px 3px; font-size: .68rem; }
+      .page-heading { align-items: flex-start; flex-direction: column; }
     }
   </style>
 </head>
@@ -475,7 +387,8 @@
   <nav class="bottom-nav" id="nav" aria-label="Navegación principal"></nav>
 
   <script>
-    const STORAGE_KEY = "payplan-modern-v1";
+    const STORAGE_KEY = "payplan-complete-v1";
+    const NAME_KEY = "payplan-user-name";
 
     const pages = [
       ["home", "🏠", "Inicio"],
@@ -491,8 +404,8 @@
 
     function loadData() {
       try {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-        return saved || { debts: [], incomes: [], payments: [] };
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) ||
+          { debts: [], incomes: [], payments: [] };
       } catch {
         return { debts: [], incomes: [], payments: [] };
       }
@@ -551,8 +464,11 @@
     function daysUntil(value) {
       const due = localDate(value);
       if (!due) return Infinity;
-      const today = localDate(todayString());
-      return Math.round((due - today) / 86400000);
+      return Math.round((due - localDate(todayString())) / 86400000);
+    }
+
+    function getProfileName() {
+      return localStorage.getItem(NAME_KEY) || "";
     }
 
     function debtRemaining(debt) {
@@ -572,9 +488,11 @@
       const received = data.incomes
         .filter(income => income.received)
         .reduce((sum, income) => sum + Number(income.amount), 0);
+
       const payments = data.payments
         .filter(payment => payment.fromAvailable)
         .reduce((sum, payment) => sum + Number(payment.amount), 0);
+
       return Math.max(0, received - payments);
     }
 
@@ -613,15 +531,17 @@
 
       let left = available;
       const planRows = debts.map((debt, index) => {
-        const amount = Math.min(left, debtRemaining(debt));
-        left = Math.max(0, left - amount);
-        return { debt, index, amount };
+        const suggested = Math.min(left, debtRemaining(debt));
+        left = Math.max(0, left - suggested);
+        return { debt, index, suggested };
       });
+
+      const name = getProfileName();
 
       return `
         <div class="page-heading">
           <div>
-            <h2>Hola, bienvenido 👋</h2>
+            <h2>Hola${name ? `, ${escapeHTML(name)}` : ""} 👋</h2>
             <p class="subtitle">Mira tus pagos y organiza tu dinero en un solo lugar.</p>
           </div>
           <button class="primary" data-go="debts">＋ Agregar deuda</button>
@@ -629,11 +549,8 @@
 
         ${reminders.length ? `
           <div class="notice">
-            <span class="notice-icon">🔔</span>
-            <span>
-              <strong>Atención:</strong> ${reminders.length} pago(s) vencen dentro de los próximos 5 días.
-              Revisa las fechas para planearlos a tiempo.
-            </span>
+            <span>🔔</span>
+            <span><strong>Atención:</strong> ${reminders.length} pago(s) vencen dentro de los próximos 5 días.</span>
           </div>
         ` : ""}
 
@@ -668,37 +585,38 @@
             </div>
 
             ${planRows.length ? `
-              <div>
-                ${planRows.slice(0, 6).map(({ debt, index, amount }) => `
-                  <div class="plan-row">
-                    <div class="plan-number">${index + 1}</div>
-                    <div>
-                      <div class="item-title">${escapeHTML(debt.name)}</div>
-                      <div class="item-details">
-                        <span class="badge ${dueBadgeClass(debt)}">${dueLabel(debt)}</span>
-                        <span> · Saldo ${money(debtRemaining(debt))}</span>
-                      </div>
+              ${planRows.map(({ debt, index, suggested }) => `
+                <div class="plan-row">
+                  <div class="plan-number">${index + 1}</div>
+                  <div>
+                    <div class="item-title">${escapeHTML(debt.name)}</div>
+                    <div class="item-details">
+                      <span class="badge ${dueBadgeClass(debt)}">${dueLabel(debt)}</span>
+                      <span> · Saldo ${money(debtRemaining(debt))}</span>
                     </div>
-                    <div class="plan-amount">${money(amount)}</div>
                   </div>
-                `).join("")}
-              </div>
-              <p class="muted">La cantidad azul es una sugerencia usando el dinero recibido disponible, empezando por lo que vence antes. Confirma los pagos antes de realizarlos.</p>
+                  <div class="plan-amount">${money(suggested)}</div>
+                </div>
+              `).join("")}
+              <p class="muted">La sugerencia usa el dinero recibido disponible y empieza por lo que vence antes. Confirma los pagos antes de realizarlos.</p>
             ` : `<div class="empty">Agrega una deuda para crear tu orden de pago.</div>`}
           </section>
 
           <section class="card">
-            <div class="section-top">
-              <h3>Acciones rápidas</h3>
-            </div>
-            <div class="list">
-              <button class="secondary" data-go="income">＋ Registrar un ingreso</button>
-              <button class="secondary" data-go="payments">✓ Registrar un pago</button>
-              <button class="secondary" data-go="calendar">▦ Ver fechas importantes</button>
-            </div>
-            <div class="tip" style="margin-top:14px">
-              Registra el ingreso cuando lo recibas. Así el plan usa dinero real disponible y no cuenta ingresos futuros antes de tiempo.
-            </div>
+            <div class="section-top"><h3>Tu perfil y recordatorios</h3></div>
+            <form id="profileForm">
+              <label>Nombre de quien usa PayPlan
+                <input name="userName" maxlength="50" value="${escapeHTML(name)}" placeholder="Ej. Eladio">
+              </label>
+              <button class="secondary" type="submit">Guardar nombre</button>
+            </form>
+
+            <button class="primary" type="button" data-enable-notifications style="width:100%;margin-top:14px">
+              🔔 Activar recordatorios
+            </button>
+            <p class="muted" style="margin-bottom:0">
+              Te avisaremos 5 días antes y el día del vencimiento mientras PayPlan esté abierto.
+            </p>
           </section>
         </div>`;
     }
@@ -718,7 +636,7 @@
           <section class="form-card">
             <h3>＋ Agregar una deuda</h3>
             <form id="debtForm">
-              <label>Nombre
+              <label>Nombre de la deuda
                 <input name="name" required maxlength="60" placeholder="Ej. Pago de teléfono">
               </label>
               <label>Monto pendiente ($)
@@ -755,7 +673,7 @@
                     <div class="item-actions">
                       <span class="amount">${money(debtRemaining(debt))}</span>
                       <button class="primary small-button" data-pay="${debt.id}">Registrar pago</button>
-                      <button class="danger small-button" data-delete-debt="${debt.id}" aria-label="Eliminar deuda">Eliminar</button>
+                      <button class="danger small-button" data-delete-debt="${debt.id}">Eliminar</button>
                     </div>
                   </div>
                 `).join("")}
@@ -772,7 +690,7 @@
         <div class="page-heading">
           <div>
             <h2>Mis ingresos</h2>
-            <p class="subtitle">Anota cuándo y cuánto recibes para planear mejor tus pagos.</p>
+            <p class="subtitle">Anota cuánto recibes y cuándo para organizar tus pagos.</p>
           </div>
         </div>
 
@@ -795,7 +713,7 @@
               </label>
               <button class="primary" type="submit">Guardar ingreso</button>
             </form>
-            <p class="muted">Los ingresos futuros aparecen como programados, pero no se suman al dinero disponible hasta que marques que ya los recibiste.</p>
+            <p class="muted">Un ingreso futuro aparece como programado. No se cuenta como disponible hasta marcar que ya lo recibiste.</p>
           </section>
 
           <section class="card">
@@ -803,7 +721,6 @@
               <h3>Ingresos registrados</h3>
               <span class="badge">${incomes.length}</span>
             </div>
-
             ${incomes.length ? `
               <div class="list">
                 ${incomes.map(income => `
@@ -819,6 +736,9 @@
                     </div>
                     <div class="item-actions">
                       <span class="amount">${money(income.amount)}</span>
+                      <button class="secondary small-button" data-receive-income="${income.id}">
+                        ${income.received ? "Recibido" : "Marcar recibido"}
+                      </button>
                       <button class="danger small-button" data-delete-income="${income.id}">Eliminar</button>
                     </div>
                   </div>
@@ -916,7 +836,7 @@
         <div class="page-heading">
           <div>
             <h2>Fechas importantes</h2>
-            <p class="subtitle">Consulta los vencimientos y los ingresos que tienes registrados.</p>
+            <p class="subtitle">Consulta tus vencimientos e ingresos registrados.</p>
           </div>
         </div>
 
@@ -940,6 +860,49 @@
         </section>`;
     }
 
+    async function enableNotifications() {
+      if (!("Notification" in window)) {
+        alert("Este navegador no admite notificaciones.");
+        return;
+      }
+
+      try {
+        const permission = await Notification.requestPermission();
+
+        if (permission === "granted") {
+          alert("¡Recordatorios activados! PayPlan revisará los vencimientos mientras esté abierto.");
+          checkReminders();
+        } else {
+          alert("No se activaron las notificaciones. Revisa los permisos del navegador.");
+        }
+      } catch {
+        alert("No se pudo solicitar permiso para las notificaciones en este navegador.");
+      }
+    }
+
+    function checkReminders() {
+      if (!("Notification" in window) || Notification.permission !== "granted") return;
+
+      for (const debt of activeDebts()) {
+        const days = daysUntil(debt.dueDate);
+        if (days !== 5 && days !== 0) continue;
+
+        const reminderKey = `payplan-reminder-${debt.id}-${debt.dueDate}-${days}`;
+        if (localStorage.getItem(reminderKey)) continue;
+
+        const message = days === 0
+          ? `${debt.name} vence hoy. Saldo pendiente: ${money(debtRemaining(debt))}.`
+          : `${debt.name} vence en 5 días. Saldo pendiente: ${money(debtRemaining(debt))}.`;
+
+        try {
+          new Notification("PayPlan: recordatorio de pago", { body: message });
+          localStorage.setItem(reminderKey, "sent");
+        } catch {
+          // Si el navegador bloquea la notificación, la app sigue funcionando.
+        }
+      }
+    }
+
     function render() {
       renderNav();
 
@@ -958,6 +921,8 @@
           day: "numeric",
           month: "short"
         });
+
+      checkReminders();
     }
 
     document.addEventListener("click", event => {
@@ -966,6 +931,7 @@
       const payButton = event.target.closest("[data-pay]");
       const deleteDebtButton = event.target.closest("[data-delete-debt]");
       const deleteIncomeButton = event.target.closest("[data-delete-income]");
+      const receiveButton = event.target.closest("[data-receive-income]");
 
       if (pageButton) {
         currentPage = pageButton.dataset.page;
@@ -984,6 +950,21 @@
         selectedDebtId = payButton.dataset.pay;
         currentPage = "payments";
         render();
+        return;
+      }
+
+      if (event.target.closest("[data-enable-notifications]")) {
+        enableNotifications();
+        return;
+      }
+
+      if (receiveButton) {
+        const income = data.incomes.find(item => item.id === receiveButton.dataset.receiveIncome);
+        if (income && !income.received) {
+          income.received = true;
+          saveData();
+          render();
+        }
         return;
       }
 
@@ -1014,6 +995,12 @@
       const form = event.target;
       const values = Object.fromEntries(new FormData(form));
 
+      if (form.id === "profileForm") {
+        localStorage.setItem(NAME_KEY, (values.userName || "").trim());
+        render();
+        return;
+      }
+
       if (form.id === "debtForm") {
         const amount = Number(values.amount);
         const minimum = Number(values.minimum) || 0;
@@ -1032,8 +1019,8 @@
         });
 
         saveData();
-        currentPage = "debts";
         render();
+        return;
       }
 
       if (form.id === "incomeForm") {
@@ -1052,8 +1039,8 @@
         });
 
         saveData();
-        currentPage = "income";
         render();
+        return;
       }
 
       if (form.id === "paymentForm") {
@@ -1086,7 +1073,12 @@
       }
     });
 
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) checkReminders();
+    });
+
     render();
+    setInterval(checkReminders, 60 * 60 * 1000);
   </script>
 </body>
 </html>
