@@ -1,20 +1,21 @@
 {
+  "id": "payplan-app",
   "name": "PayPlan — Deudas y pagos",
   "short_name": "PayPlan",
-  "start_url": "./index.html",
+  "description": "Organiza tus deudas, fechas de vencimiento y pagos.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#f4f7fc",
   "theme_color": "#2457e6",
   "icons": [
     {
-      "src": "./icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "./icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ]
 }
