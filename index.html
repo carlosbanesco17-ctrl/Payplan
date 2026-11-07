@@ -3,1123 +3,654 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#2563EB">
-  <title>PayPlan</title>
-
+  <meta name="theme-color" content="#2563eb">
+  <title>PayPlan — Deudas y pagos</title>
   <style>
     :root {
-      --royal: #2563EB;
-      --royal-dark: #1D4ED8;
-      --sky-soft: #E0F2FE;
-      --ink: #0B1220;
-      --muted: #64748B;
-      --bg: #F3F7FC;
-      --white: #FFFFFF;
-      --line: #E2E8F0;
-      --green: #0F9F6E;
-      --green-soft: #E7F8F1;
-      --orange: #B96A05;
-      --orange-soft: #FFF4DF;
-      --red: #C24141;
-      --red-soft: #FFF0F0;
-      --shadow: 0 8px 24px rgba(15, 35, 75, .07);
-      --radius: 18px;
+      --royal: #2563eb;
+      --royal-dark: #1d4ed8;
+      --sky: #e0f2fe;
+      --ink: #101828;
+      --muted: #64748b;
+      --bg: #f3f7fc;
+      --white: #fff;
+      --line: #e2e8f0;
+      --green: #09845a;
+      --green-bg: #e7f8f1;
+      --orange: #985700;
+      --orange-bg: #fff4df;
+      --red: #b83232;
+      --red-bg: #fff0f0;
+      --shadow: 0 8px 24px #0f234b10;
+      --radius: 17px;
     }
 
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       color: var(--ink);
       background: var(--bg);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-
     button, input, select { font: inherit; }
     button { cursor: pointer; }
 
-    .topbar {
-      color: var(--white);
-      background: linear-gradient(115deg, var(--royal-dark), var(--royal) 58%, #168FE5);
-      padding: 18px 20px;
+    header {
+      color: white;
+      background: linear-gradient(115deg, #1d4ed8, #2563eb 60%, #1599e5);
+      padding: 14px 18px;
     }
-
-    .topbar-inner {
-      max-width: 1100px;
-      margin: 0 auto;
+    .header-inner {
+      max-width: 1080px;
+      margin: auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand svg { width: 48px; height: 48px; flex: none; }
+    .brand h1 { margin: 0; font-size: 1.25rem; }
+    .brand p { margin: 2px 0 0; color: #e3f2ff; font-size: .82rem; }
+    #today { font-size: .82rem; white-space: nowrap; }
+
+    main { max-width: 1080px; margin: auto; padding: 24px 16px 100px; }
+    h2 { margin: 0; font-size: 1.7rem; letter-spacing: -.04em; }
+    h3 { margin: 0 0 13px; font-size: 1.05rem; }
+    .subtitle { margin: 5px 0 0; color: var(--muted); font-size: .92rem; }
+    .heading {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; margin-bottom: 18px;
     }
 
-    .brand { display: flex; align-items: center; gap: 12px; }
-
-    .brand-mark {
-      display: grid;
-      place-items: center;
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      color: var(--royal);
-      background: var(--white);
-      font-size: 22px;
-      font-weight: 900;
-    }
-
-    .brand h1 { margin: 0; font-size: 1.35rem; }
-    .brand p { margin: 2px 0 0; color: #DBEEFF; font-size: .85rem; }
-
-    .today {
-      padding: 9px 13px;
-      border: 1px solid #FFFFFF40;
-      border-radius: 999px;
-      color: #F0F8FF;
-      background: #FFFFFF14;
-      font-size: .85rem;
-      white-space: nowrap;
-    }
-
-    main {
-      max-width: 1100px;
-      min-height: calc(100vh - 150px);
-      margin: 0 auto;
-      padding: 26px 18px 110px;
-    }
-
-    .page-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    h2 {
-      margin: 0;
-      color: var(--ink);
-      font-size: clamp(1.45rem, 3vw, 1.9rem);
-      letter-spacing: -.04em;
-    }
-
-    h3 { margin: 0 0 14px; font-size: 1.05rem; }
-    .subtitle { margin: 6px 0 0; color: var(--muted); font-size: .94rem; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 15px;
-      margin-bottom: 18px;
-    }
-
-    .two-column {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-      gap: 16px;
-      align-items: start;
-    }
-
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin-bottom: 15px; }
+    .columns { display: grid; grid-template-columns: 1fr 1.2fr; gap: 15px; align-items: start; }
     .card, .form-card {
-      padding: 19px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--white);
-      box-shadow: var(--shadow);
+      background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 18px; box-shadow: var(--shadow);
     }
-
-    .metric-label { color: var(--muted); font-size: .88rem; font-weight: 600; }
-
-    .metric {
-      margin: 9px 0 4px;
-      color: var(--ink);
-      font-size: clamp(1.65rem, 4vw, 2.15rem);
-      font-weight: 800;
-      letter-spacing: -.05em;
-    }
-
-    .metric.blue { color: var(--royal); }
-    .metric.green { color: var(--green); }
-    .metric.orange { color: var(--orange); }
-
-    .muted { color: var(--muted); font-size: .89rem; line-height: 1.5; }
+    .metric-label { color: var(--muted); font-size: .86rem; font-weight: 650; }
+    .metric { margin: 8px 0 3px; font-size: 1.8rem; font-weight: 850; letter-spacing: -.04em; }
+    .blue { color: var(--royal); }
+    .green { color: var(--green); }
+    .orange { color: var(--orange); }
+    .muted { color: var(--muted); font-size: .87rem; line-height: 1.5; }
 
     .notice {
-      display: flex;
-      gap: 11px;
-      align-items: flex-start;
-      padding: 14px 16px;
-      margin-bottom: 16px;
-      border: 1px solid #F3D28E;
-      border-radius: 14px;
-      color: #744700;
-      background: var(--orange-soft);
-      line-height: 1.45;
+      background: var(--orange-bg); color: #704500; border: 1px solid #f3d28e;
+      border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;
     }
-
-    .section-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
+    .list { display: grid; gap: 9px; }
+    .item {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 12px; border: 1px solid var(--line); border-radius: 12px;
     }
-
-    .section-top h3 { margin: 0; }
-
-    .list { display: grid; gap: 10px; }
-
-    .list-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      padding: 14px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: var(--white);
-    }
-
-    .item-title { margin-bottom: 4px; font-weight: 750; }
-    .item-details { color: var(--muted); font-size: .87rem; line-height: 1.45; }
-
-    .item-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
+    .item-name { font-weight: 750; margin-bottom: 4px; }
+    .item-info { color: var(--muted); font-size: .84rem; line-height: 1.45; }
+    .item-actions { display: flex; align-items: center; justify-content: flex-end; gap: 7px; flex-wrap: wrap; }
     .amount { font-weight: 800; white-space: nowrap; }
 
     .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 6px 9px;
-      border-radius: 999px;
-      color: var(--royal-dark);
-      background: var(--sky-soft);
-      font-size: .78rem;
-      font-weight: 750;
-      white-space: nowrap;
+      display: inline-block; border-radius: 999px; padding: 5px 8px;
+      background: var(--sky); color: var(--royal-dark); font-size: .75rem; font-weight: 750;
     }
-
-    .badge.green { color: #08734D; background: var(--green-soft); }
-    .badge.orange { color: #855000; background: var(--orange-soft); }
-    .badge.red { color: #A12F2F; background: var(--red-soft); }
+    .badge.green { background: var(--green-bg); color: var(--green); }
+    .badge.orange { background: var(--orange-bg); color: var(--orange); }
+    .badge.red { background: var(--red-bg); color: var(--red); }
 
     .primary, .secondary, .danger {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      min-height: 42px;
-      padding: 10px 15px;
-      border: 0;
-      border-radius: 11px;
-      font-weight: 750;
-      transition: transform .12s ease, background .12s ease;
+      border: 0; border-radius: 10px; padding: 10px 13px; font-weight: 750;
+      transition: .15s ease;
     }
-
-    .primary {
-      color: var(--white);
-      background: var(--royal);
-      box-shadow: 0 5px 12px #2563EB2B;
-    }
-
+    .primary { color: white; background: var(--royal); box-shadow: 0 4px 10px #2563eb2c; }
     .primary:hover { background: var(--royal-dark); transform: translateY(-1px); }
-    .secondary { color: var(--royal-dark); background: var(--sky-soft); }
-    .secondary:hover { background: #CDEBFC; }
-    .danger { color: var(--red); background: var(--red-soft); }
-    .danger:hover { background: #FFE1E1; }
-    .small-button { min-height: 36px; padding: 8px 11px; font-size: .84rem; }
-
-    form { display: grid; gap: 13px; }
-
-    label {
-      display: grid;
-      gap: 6px;
-      color: var(--ink);
-      font-size: .88rem;
-      font-weight: 700;
-    }
-
+    .secondary { color: var(--royal-dark); background: var(--sky); }
+    .secondary:hover { background: #cceafe; }
+    .danger { color: var(--red); background: var(--red-bg); }
+    .small { padding: 8px 10px; font-size: .82rem; }
+    form { display: grid; gap: 12px; }
+    label { display: grid; gap: 6px; font-size: .87rem; font-weight: 700; }
     input, select {
-      width: 100%;
-      min-height: 45px;
-      padding: 10px 12px;
-      border: 1px solid #CBD5E1;
-      border-radius: 10px;
-      outline: none;
-      color: var(--ink);
-      background: var(--white);
+      width: 100%; min-height: 43px; padding: 9px 11px; border: 1px solid #cbd5e1;
+      border-radius: 9px; background: white; color: var(--ink);
     }
-
-    input:focus, select:focus {
-      border-color: var(--royal);
-      box-shadow: 0 0 0 3px #2563EB20;
-    }
-
-    .checkbox-label {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      font-weight: 550;
-    }
-
-    .checkbox-label input {
-      width: 17px;
-      min-height: 17px;
-      accent-color: var(--royal);
-    }
-
-    .empty {
-      padding: 18px;
-      border: 1px dashed #CBD5E1;
-      border-radius: 13px;
-      color: var(--muted);
-      text-align: center;
-      line-height: 1.5;
-    }
-
+    input:focus, select:focus { outline: 3px solid #2563eb20; border-color: var(--royal); }
+    .check { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+    .check input { width: 17px; min-height: 17px; accent-color: var(--royal); }
+    .empty { border: 1px dashed #cbd5e1; border-radius: 12px; padding: 17px; text-align: center; color: var(--muted); line-height: 1.5; }
     .plan-row {
-      display: grid;
-      grid-template-columns: 32px 1fr auto;
-      align-items: center;
-      gap: 11px;
-      padding: 13px 0;
-      border-bottom: 1px solid var(--line);
+      display: grid; grid-template-columns: 30px 1fr auto; align-items: center;
+      gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line);
     }
-
     .plan-row:last-child { border-bottom: 0; }
-
     .plan-number {
-      display: grid;
-      place-items: center;
-      width: 30px;
-      height: 30px;
-      border-radius: 10px;
-      color: var(--royal-dark);
-      background: var(--sky-soft);
-      font-weight: 800;
+      display: grid; place-items: center; width: 29px; height: 29px;
+      border-radius: 9px; color: var(--royal-dark); background: var(--sky); font-weight: 800;
     }
+    .tip { margin-top: 12px; padding: 12px; background: var(--sky); border-radius: 11px; color: #155073; font-size: .86rem; line-height: 1.5; }
 
-    .plan-amount { color: var(--royal-dark); font-weight: 800; white-space: nowrap; }
-
-    .tip {
-      padding: 12px 14px;
-      border-radius: 12px;
-      color: #155073;
-      background: var(--sky-soft);
-      font-size: .88rem;
-      line-height: 1.5;
+    nav {
+      position: fixed; z-index: 4; left: 0; right: 0; bottom: 0; display: flex;
+      justify-content: center; gap: 4px; padding: 8px 10px max(8px, env(safe-area-inset-bottom));
+      background: #ffffffF5; border-top: 1px solid var(--line); overflow-x: auto;
     }
-
-    .bottom-nav {
-      position: fixed;
-      z-index: 5;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      display: flex;
-      justify-content: center;
-      gap: 5px;
-      padding: 9px 12px max(9px, env(safe-area-inset-bottom));
-      border-top: 1px solid var(--line);
-      background: #FFFFFFF5;
-      backdrop-filter: blur(12px);
+    nav button {
+      flex: 0 0 auto; display: grid; justify-items: center; gap: 2px; min-width: 66px;
+      padding: 7px 9px; border: 0; border-radius: 11px; color: var(--muted);
+      background: transparent; font-size: .72rem;
     }
+    nav button.active { color: var(--royal-dark); background: var(--sky); font-weight: 750; }
+    nav .icon { font-size: 1.1rem; }
 
-    .nav-button {
-      display: grid;
-      justify-items: center;
-      gap: 3px;
-      min-width: 74px;
-      padding: 7px 10px;
-      border: 0;
-      border-radius: 12px;
-      color: var(--muted);
-      background: transparent;
-      font-size: .74rem;
-      font-weight: 650;
-    }
-
-    .nav-button .nav-icon { font-size: 1.15rem; }
-    .nav-button.active { color: var(--royal-dark); background: var(--sky-soft); }
-
-    .home-logo {
-      display: block;
-      width: min(230px, 58vw);
-      max-width: 230px;
-      height: auto;
-      margin: 0 auto 18px;
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    @media (max-width: 760px) {
+    @media (max-width: 750px) {
       .grid { grid-template-columns: 1fr 1fr; }
-      .two-column { grid-template-columns: 1fr; }
+      .columns { grid-template-columns: 1fr; }
     }
-
     @media (max-width: 520px) {
-      .topbar { padding: 14px 15px; }
-      .topbar-inner { align-items: flex-start; }
-      .today { font-size: .75rem; padding: 7px 9px; }
-      main { padding: 20px 13px 105px; }
-      .grid { grid-template-columns: 1fr; gap: 11px; }
-      .card, .form-card { padding: 16px; }
-      .list-item { align-items: flex-start; }
+      main { padding: 18px 12px 100px; }
+      .grid { grid-template-columns: 1fr; }
+      .heading { align-items: flex-start; flex-direction: column; }
+      .item { align-items: flex-start; }
       .item-actions { flex-direction: column; align-items: flex-end; }
-      .bottom-nav { justify-content: space-between; gap: 1px; }
-      .nav-button { min-width: 0; flex: 1; padding: 7px 3px; font-size: .68rem; }
-      .page-heading { align-items: flex-start; flex-direction: column; }
-      .home-logo { width: min(210px, 70vw); }
+      .brand svg { width: 42px; height: 42px; }
     }
   </style>
 </head>
-
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
+  <header>
+    <div class="header-inner">
       <div class="brand">
-        <div class="brand-mark">P</div>
-        <div>
-          <h1>PayPlan</h1>
-          <p>Tu dinero, mejor organizado</p>
-        </div>
+        <!-- Logo vectorial incluido; no hace falta guardar otra imagen -->
+        <svg viewBox="0 0 100 100" role="img" aria-label="Logo PayPlan">
+          <defs>
+            <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#20c4ad"/>
+              <stop offset="1" stop-color="#1677d2"/>
+            </linearGradient>
+          </defs>
+          <rect x="5" y="5" width="90" height="90" rx="22" fill="none" stroke="url(#logoGradient)" stroke-width="8"/>
+          <rect x="23" y="53" width="13" height="23" rx="3" fill="url(#logoGradient)"/>
+          <rect x="43" y="41" width="13" height="35" rx="3" fill="url(#logoGradient)"/>
+          <rect x="63" y="28" width="13" height="48" rx="3" fill="url(#logoGradient)"/>
+          <path d="M29 43V34m0 0-5 5m5-5 5 5M49 32V23m0 0-5 5m5-5 5 5M69 20v-7m0 0-5 5m5-5 5 5"
+            fill="none" stroke="url(#logoGradient)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="69" cy="68" r="13" fill="white" stroke="url(#logoGradient)" stroke-width="4"/>
+          <path d="m63 68 4 4 8-9" fill="none" stroke="#1688c9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div><h1>PayPlan</h1><p>Deudas y pagos</p></div>
       </div>
-      <div class="today" id="todayLabel"></div>
+      <div id="today"></div>
     </div>
   </header>
 
   <main id="app"></main>
-  <nav class="bottom-nav" id="nav" aria-label="Navegación principal"></nav>
+  <nav id="nav" aria-label="Navegación"></nav>
 
   <script>
-    const STORAGE_KEY = "payplan-complete-v1";
-    const NAME_KEY = "payplan-user-name";
-
-    const pages = [
+    const KEY = "payplan-single-file-v1";
+    const NAME_KEY = "payplan-name-v1";
+    const tabs = [
       ["home", "🏠", "Inicio"],
       ["debts", "📋", "Deudas"],
       ["income", "💵", "Ingresos"],
       ["payments", "✅", "Pagos"],
-      ["calendar", "📅", "Fechas"],
-      ["profile", "👤", "Perfil"]
+      ["calendar", "📅", "Calendario"],
+      ["profile", "👤", "Perfil"],
+      ["help", "❔", "Ayuda"]
     ];
 
-    let currentPage = "home";
-    let selectedDebtId = "";
-    let data = loadData();
+    let page = "home";
+    let selectedDebt = "";
+    let data = load();
 
-    function loadData() {
+    function load() {
       try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { debts: [], incomes: [], payments: [] };
+        const saved = JSON.parse(localStorage.getItem(KEY));
+        return saved && Array.isArray(saved.debts)
+          ? { debts: saved.debts || [], incomes: saved.incomes || [], payments: saved.payments || [] }
+          : { debts: [], incomes: [], payments: [] };
       } catch {
         return { debts: [], incomes: [], payments: [] };
       }
     }
 
-    function saveData() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    }
+    function save() { localStorage.setItem(KEY, JSON.stringify(data)); }
+    function id() { return crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()); }
+    function name() { return localStorage.getItem(NAME_KEY) || ""; }
 
-    function makeId() {
-      return (crypto.randomUUID && crypto.randomUUID()) || String(Date.now() + Math.random());
-    }
-
-    function escapeHTML(value = "") {
-      return String(value).replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-      }[char]));
+    function esc(value = "") {
+      return String(value).replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+      }[c]));
     }
 
     function money(value) {
-      return new Intl.NumberFormat("es", {
-        style: "currency",
-        currency: "USD"
-      }).format(Number(value) || 0);
+      return new Intl.NumberFormat("es", { style: "currency", currency: "USD" }).format(Number(value) || 0);
     }
 
-    function localDate(value) {
+    function dateObj(value) {
       if (!value) return null;
-      const [year, month, day] = value.split("-").map(Number);
-      return new Date(year, month - 1, day);
+      const [y, m, d] = value.split("-").map(Number);
+      return new Date(y, m - 1, d);
     }
 
     function todayString() {
-      const now = new Date();
-      return [
-        now.getFullYear(),
-        String(now.getMonth() + 1).padStart(2, "0"),
-        String(now.getDate()).padStart(2, "0")
-      ].join("-");
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
     }
 
-    function formatDate(value) {
-      const date = localDate(value);
-      return date ? date.toLocaleDateString("es", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-      }) : "Sin fecha";
+    function dateText(value) {
+      const d = dateObj(value);
+      return d ? d.toLocaleDateString("es", { day: "numeric", month: "short", year: "numeric" }) : "Sin fecha";
     }
 
     function daysUntil(value) {
-      const due = localDate(value);
-      if (!due) return Infinity;
-      return Math.round((due - localDate(todayString())) / 86400000);
+      const d = dateObj(value);
+      return d ? Math.round((d - dateObj(todayString())) / 86400000) : Infinity;
     }
 
-    function getProfileName() {
-      return localStorage.getItem(NAME_KEY) || "";
-    }
-
-    function debtRemaining(debt) {
-      const paid = data.payments
-        .filter(payment => payment.debtId === debt.id)
-        .reduce((sum, payment) => sum + Number(payment.amount), 0);
+    function balance(debt) {
+      const paid = data.payments.filter(p => p.debtId === debt.id).reduce((s, p) => s + Number(p.amount), 0);
       return Math.max(0, Number(debt.amount) - paid);
     }
 
-    function activeDebts() {
-      return [...data.debts]
-        .filter(debt => debtRemaining(debt) > 0)
-        .sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+    function debtsOpen() {
+      return [...data.debts].filter(d => balance(d) > 0).sort((a, b) => a.dueDate.localeCompare(b.dueDate));
     }
 
-    function availableMoney() {
-      const received = data.incomes
-        .filter(income => income.received)
-        .reduce((sum, income) => sum + Number(income.amount), 0);
-
-      const paid = data.payments
-        .filter(payment => payment.fromAvailable)
-        .reduce((sum, payment) => sum + Number(payment.amount), 0);
-
-      return Math.max(0, received - paid);
+    function cashAvailable() {
+      const received = data.incomes.filter(i => i.received).reduce((s, i) => s + Number(i.amount), 0);
+      const spent = data.payments.filter(p => p.fromAvailable).reduce((s, p) => s + Number(p.amount), 0);
+      return Math.max(0, received - spent);
     }
 
     function dueLabel(debt) {
-      const days = daysUntil(debt.dueDate);
-      if (days < 0) return `Venció hace ${Math.abs(days)} día(s)`;
-      if (days === 0) return "Vence hoy";
-      if (days === 1) return "Vence mañana";
-      return `Vence en ${days} días`;
+      const n = daysUntil(debt.dueDate);
+      if (n < 0) return `Venció hace ${Math.abs(n)} día(s)`;
+      if (n === 0) return "Vence hoy";
+      if (n === 1) return "Vence mañana";
+      return `Vence en ${n} días`;
     }
 
-    function dueBadgeClass(debt) {
-      const days = daysUntil(debt.dueDate);
-      if (days < 0) return "red";
-      if (days <= 5) return "orange";
-      return "";
+    function dueClass(debt) {
+      const n = daysUntil(debt.dueDate);
+      return n < 0 ? "red" : n <= 5 ? "orange" : "";
+    }
+
+    // Propone cuánto podría destinarse a cada deuda cuando venza,
+    // sumando ingresos programados que lleguen antes de esa fecha.
+    function paymentPlan() {
+      let cash = cashAvailable();
+      const futureIncomes = data.incomes
+        .filter(i => !i.received && i.date >= todayString())
+        .sort((a, b) => a.date.localeCompare(b.date));
+      let incomeIndex = 0;
+
+      return debtsOpen().map((debt, index) => {
+        while (incomeIndex < futureIncomes.length &&
+               futureIncomes[incomeIndex].date <= debt.dueDate) {
+          cash += Number(futureIncomes[incomeIndex].amount);
+          incomeIndex++;
+        }
+        const suggested = Math.min(cash, balance(debt));
+        cash -= suggested;
+        return { debt, index, suggested };
+      });
     }
 
     function renderNav() {
-      document.getElementById("nav").innerHTML = pages.map(([key, icon, label]) => `
-        <button class="nav-button ${currentPage === key ? "active" : ""}" data-page="${key}">
-          <span class="nav-icon">${icon}</span>
-          <span>${label}</span>
+      document.getElementById("nav").innerHTML = tabs.map(([key, icon, label]) => `
+        <button class="${page === key ? "active" : ""}" data-page="${key}">
+          <span class="icon">${icon}</span><span>${label}</span>
         </button>
       `).join("");
     }
 
     function renderHome() {
-      const debts = activeDebts();
-      const nextDebt = debts[0];
-      const reminders = debts.filter(debt => {
-        const days = daysUntil(debt.dueDate);
-        return days >= 0 && days <= 5;
-      });
-      const available = availableMoney();
-
-      let left = available;
-      const planRows = debts.map((debt, index) => {
-        const suggested = Math.min(left, debtRemaining(debt));
-        left = Math.max(0, left - suggested);
-        return { debt, index, suggested };
-      });
-
-      const name = getProfileName();
+      const debts = debtsOpen();
+      const next = debts[0];
+      const reminders = debts.filter(d => daysUntil(d.dueDate) >= 0 && daysUntil(d.dueDate) <= 5);
+      const plan = paymentPlan();
+      const total = debts.reduce((s, d) => s + balance(d), 0);
 
       return `
-        <img class="home-logo" src="payplan-logo.png" alt="PayPlan logo">
-        <div class="page-heading">
+        <div class="heading">
           <div>
-            <h2>Hola${name ? `, ${escapeHTML(name)}` : ""} 👋</h2>
-            <p class="subtitle">Mira tus pagos y organiza tu dinero en un solo lugar.</p>
+            <h2>Hola${name() ? `, ${esc(name())}` : ""} 👋</h2>
+            <p class="subtitle">Organiza tus ingresos y paga primero lo que vence antes.</p>
           </div>
           <button class="primary" data-go="debts">＋ Agregar deuda</button>
         </div>
 
-        ${reminders.length ? `
-          <div class="notice">
-            <span>🔔</span>
-            <span><strong>Atención:</strong> ${reminders.length} pago(s) vencen dentro de los próximos 5 días.</span>
-          </div>
-        ` : ""}
+        ${reminders.length ? `<div class="notice">🔔 Tienes ${reminders.length} pago(s) que vencen dentro de los próximos 5 días.</div>` : ""}
 
         <div class="grid">
           <section class="card">
             <div class="metric-label">Dinero recibido disponible</div>
-            <div class="metric green">${money(available)}</div>
-            <div class="muted">Solo cuenta ingresos marcados como recibidos.</div>
+            <div class="metric green">${money(cashAvailable())}</div>
+            <div class="muted">Ingresos recibidos menos pagos registrados.</div>
           </section>
-
           <section class="card">
             <div class="metric-label">Deuda pendiente total</div>
-            <div class="metric blue">${money(debts.reduce((sum, debt) => sum + debtRemaining(debt), 0))}</div>
+            <div class="metric blue">${money(total)}</div>
             <div class="muted">${debts.length} deuda(s) pendiente(s).</div>
           </section>
-
           <section class="card">
             <div class="metric-label">Próximo vencimiento</div>
-            ${nextDebt ? `
-              <div class="metric orange">${money(debtRemaining(nextDebt))}</div>
-              <div class="item-title">${escapeHTML(nextDebt.name)}</div>
-              <div class="muted">${dueLabel(nextDebt)} · ${formatDate(nextDebt.dueDate)}</div>
-            ` : `<div class="metric blue">¡Muy bien!</div><div class="muted">No tienes deudas pendientes.</div>`}
+            ${next
+              ? `<div class="metric orange">${money(balance(next))}</div><strong>${esc(next.name)}</strong><div class="muted">${dueLabel(next)} · ${dateText(next.dueDate)}</div>`
+              : `<div class="metric blue">¡Muy bien!</div><div class="muted">No tienes deudas pendientes.</div>`}
           </section>
         </div>
 
-        <div class="two-column">
+        <div class="columns">
           <section class="card">
-            <div class="section-top">
-              <h3>Tu orden de pago</h3>
-              <span class="badge">Por vencimiento</span>
-            </div>
-
-            ${planRows.length ? `
-              ${planRows.slice(0, 6).map(({ debt, index, suggested }) => `
-                <div class="plan-row">
-                  <div class="plan-number">${index + 1}</div>
-                  <div>
-                    <div class="item-title">${escapeHTML(debt.name)}</div>
-                    <div class="item-details">
-                      <span class="badge ${dueBadgeClass(debt)}">${dueLabel(debt)}</span>
-                      <span> · Saldo ${money(debtRemaining(debt))}</span>
-                    </div>
-                  </div>
-                  <div class="plan-amount">${money(suggested)}</div>
+            <h3>Plan recomendado</h3>
+            ${plan.length ? plan.map(({ debt, index, suggested }) => `
+              <div class="plan-row">
+                <div class="plan-number">${index + 1}</div>
+                <div>
+                  <div class="item-name">${esc(debt.name)}</div>
+                  <div class="item-info"><span class="badge ${dueClass(debt)}">${dueLabel(debt)}</span> · Saldo ${money(balance(debt))}</div>
                 </div>
-              `).join("")}
-              <p class="muted">La sugerencia usa el dinero recibido disponible y empieza por lo que vence antes. Confirma los pagos antes de realizarlos.</p>
-            ` : `<div class="empty">Agrega una deuda para crear tu orden de pago.</div>`}
+                <strong class="blue">${money(suggested)}</strong>
+              </div>
+            `).join("") + `<p class="muted">La sugerencia toma en cuenta el dinero disponible y los ingresos programados antes de cada vencimiento. Confirma los pagos cuando los realices.</p>`
+              : `<div class="empty">Agrega deudas e ingresos para crear tu plan.</div>`}
           </section>
 
           <section class="card">
-            <div class="section-top">
-              <h3>Acciones rápidas</h3>
-            </div>
+            <h3>Acciones rápidas</h3>
             <div class="list">
-              <button class="secondary" data-go="income">＋ Registrar un ingreso</button>
-              <button class="secondary" data-go="payments">✓ Registrar un pago</button>
-              <button class="secondary" data-go="calendar">▦ Ver fechas importantes</button>
-              <button class="secondary" data-go="profile">👤 Ir a mi perfil</button>
+              <button class="secondary" data-go="income">＋ Registrar ingreso</button>
+              <button class="secondary" data-go="payments">✓ Registrar pago</button>
+              <button class="secondary" data-go="calendar">📅 Ver calendario</button>
+              <button class="secondary" data-go="profile">👤 Mi perfil</button>
             </div>
-            <div class="tip" style="margin-top:14px">
-              Registra el ingreso cuando lo recibas. Así el plan usa dinero real disponible y no cuenta ingresos futuros antes de tiempo.
-            </div>
+            <div class="tip">Los ingresos futuros cuentan en el plan solo si están registrados antes de la fecha de vencimiento; no se consideran dinero recibido todavía.</div>
           </section>
         </div>`;
     }
 
     function renderDebts() {
-      const debts = activeDebts();
-
+      const debts = debtsOpen();
       return `
-        <div class="page-heading">
-          <div>
-            <h2>Mis deudas</h2>
-            <p class="subtitle">Agrega tus pagos y revisa primero los vencimientos más cercanos.</p>
-          </div>
-        </div>
-
-        <div class="two-column">
+        <div class="heading"><div><h2>Mis deudas</h2><p class="subtitle">Agrega tus deudas y ordénalas por vencimiento.</p></div></div>
+        <div class="columns">
           <section class="form-card">
-            <h3>＋ Agregar una deuda</h3>
+            <h3>＋ Agregar deuda</h3>
             <form id="debtForm">
-              <label>Nombre
-                <input name="name" required maxlength="60" placeholder="Ej. Pago de teléfono">
-              </label>
-              <label>Monto pendiente ($)
-                <input name="amount" type="number" min="0.01" step="0.01" required placeholder="50.00">
-              </label>
-              <label>Pago mínimo o cuota ($), opcional
-                <input name="minimum" type="number" min="0" step="0.01" placeholder="Ej. 25.00">
-              </label>
-              <label>Fecha de vencimiento
-                <input name="dueDate" type="date" required>
-              </label>
-              <button class="primary" type="submit">Guardar deuda</button>
+              <label>Nombre de la deuda<input name="name" required maxlength="60" placeholder="Ej. Tarjeta de crédito"></label>
+              <label>Monto pendiente ($)<input name="amount" type="number" min="0.01" step="0.01" required placeholder="50.00"></label>
+              <label>Pago mínimo o cuota ($), opcional<input name="minimum" type="number" min="0" step="0.01" placeholder="25.00"></label>
+              <label>Fecha de vencimiento<input name="dueDate" type="date" required></label>
+              <button class="primary">Guardar deuda</button>
             </form>
           </section>
-
           <section class="card">
-            <div class="section-top">
-              <h3>Deudas pendientes</h3>
-              <span class="badge">${debts.length} activa(s)</span>
-            </div>
-
-            ${debts.length ? `
-              <div class="list">
-                ${debts.map(debt => `
-                  <div class="list-item">
-                    <div>
-                      <div class="item-title">${escapeHTML(debt.name)}</div>
-                      <div class="item-details">
-                        <span class="badge ${dueBadgeClass(debt)}">${dueLabel(debt)}</span>
-                        <div style="margin-top:7px">Vence: ${formatDate(debt.dueDate)}</div>
-                        ${debt.minimum > 0 ? `<div>Cuota indicada: ${money(debt.minimum)}</div>` : ""}
-                      </div>
-                    </div>
-                    <div class="item-actions">
-                      <span class="amount">${money(debtRemaining(debt))}</span>
-                      <button class="primary small-button" data-pay="${debt.id}">Registrar pago</button>
-                      <button class="danger small-button" data-delete-debt="${debt.id}">Eliminar</button>
-                    </div>
-                  </div>
-                `).join("")}
-              </div>
-            ` : `<div class="empty">Todavía no tienes deudas agregadas.<br>Usa el formulario para crear la primera.</div>`}
+            <h3>Deudas pendientes (${debts.length})</h3>
+            ${debts.length ? `<div class="list">${debts.map(d => `
+              <div class="item">
+                <div><div class="item-name">${esc(d.name)}</div>
+                  <div class="item-info"><span class="badge ${dueClass(d)}">${dueLabel(d)}</span><br>Vence ${dateText(d.dueDate)} · Saldo ${money(balance(d))}</div>
+                </div>
+                <div class="item-actions">
+                  <button class="primary small" data-pay="${d.id}">Registrar pago</button>
+                  <button class="danger small" data-delete-debt="${d.id}">Eliminar</button>
+                </div>
+              </div>`).join("")}</div>` : `<div class="empty">Aún no agregas deudas.</div>`}
           </section>
         </div>`;
     }
 
     function renderIncome() {
       const incomes = [...data.incomes].sort((a, b) => a.date.localeCompare(b.date));
-
       return `
-        <div class="page-heading">
-          <div>
-            <h2>Mis ingresos</h2>
-            <p class="subtitle">Anota cuánto recibes y cuándo para organizar tus pagos.</p>
-          </div>
-        </div>
-
-        <div class="two-column">
+        <div class="heading"><div><h2>Mis ingresos</h2><p class="subtitle">Registra cuándo recibes dinero para asignarlo a tus pagos.</p></div></div>
+        <div class="columns">
           <section class="form-card">
-            <h3>＋ Agregar un ingreso</h3>
+            <h3>＋ Agregar ingreso</h3>
             <form id="incomeForm">
-              <label>Descripción
-                <input name="name" required maxlength="60" placeholder="Ej. Pago del trabajo">
-              </label>
-              <label>Monto ($)
-                <input name="amount" type="number" min="0.01" step="0.01" required placeholder="300.00">
-              </label>
-              <label>Fecha en que lo recibes
-                <input name="date" type="date" required>
-              </label>
-              <label class="checkbox-label">
-                <input name="received" type="checkbox">
-                Ya recibí este dinero
-              </label>
-              <button class="primary" type="submit">Guardar ingreso</button>
+              <label>Descripción<input name="name" required maxlength="60" placeholder="Ej. Me pagan el 15"></label>
+              <label>Monto ($)<input name="amount" type="number" min="0.01" step="0.01" required placeholder="300.00"></label>
+              <label>Fecha de pago<input name="date" type="date" required></label>
+              <label class="check"><input name="received" type="checkbox"> Ya recibí este dinero</label>
+              <button class="primary">Guardar ingreso</button>
             </form>
-            <p class="muted">Un ingreso futuro aparece como programado. No se cuenta como disponible hasta marcar que ya lo recibiste.</p>
+            <p class="muted">Para cada próximo pago, agrega su fecha. Un ingreso programado no se cuenta como disponible hasta marcarlo recibido.</p>
           </section>
-
           <section class="card">
-            <div class="section-top">
-              <h3>Ingresos registrados</h3>
-              <span class="badge">${incomes.length}</span>
-            </div>
-            ${incomes.length ? `
-              <div class="list">
-                ${incomes.map(income => `
-                  <div class="list-item">
-                    <div>
-                      <div class="item-title">${escapeHTML(income.name)}</div>
-                      <div class="item-details">
-                        ${formatDate(income.date)} ·
-                        <span class="badge ${income.received ? "green" : ""}">
-                          ${income.received ? "Recibido" : "Programado"}
-                        </span>
-                      </div>
-                    </div>
-                    <div class="item-actions">
-                      <span class="amount">${money(income.amount)}</span>
-                      <button class="secondary small-button" data-receive-income="${income.id}">
-                        ${income.received ? "Recibido" : "Marcar recibido"}
-                      </button>
-                      <button class="danger small-button" data-delete-income="${income.id}">Eliminar</button>
-                    </div>
-                  </div>
-                `).join("")}
-              </div>
-            ` : `<div class="empty">Aún no has registrado ingresos.<br>Por ejemplo, agrega tu pago de $300 del día 15.</div>`}
+            <h3>Ingresos registrados</h3>
+            ${incomes.length ? `<div class="list">${incomes.map(i => `
+              <div class="item">
+                <div><div class="item-name">${esc(i.name)}</div>
+                  <div class="item-info">${dateText(i.date)} · <span class="badge ${i.received ? "green" : ""}">${i.received ? "Recibido" : "Programado"}</span></div>
+                </div>
+                <div class="item-actions">
+                  <strong class="amount">${money(i.amount)}</strong>
+                  ${!i.received ? `<button class="secondary small" data-receive="${i.id}">Marcar recibido</button>` : ""}
+                  <button class="danger small" data-delete-income="${i.id}">Eliminar</button>
+                </div>
+              </div>`).join("")}</div>` : `<div class="empty">Todavía no tienes ingresos registrados.</div>`}
           </section>
         </div>`;
     }
 
     function renderPayments() {
-      const debts = activeDebts();
+      const debts = debtsOpen();
       const payments = [...data.payments].sort((a, b) => b.date.localeCompare(a.date));
-
       return `
-        <div class="page-heading">
-          <div>
-            <h2>Registrar pago</h2>
-            <p class="subtitle">Confirma un pago para actualizar el saldo de tu deuda.</p>
-          </div>
-        </div>
-
-        <div class="two-column">
+        <div class="heading"><div><h2>Registrar pago</h2><p class="subtitle">Confirma un pago para actualizar el saldo pendiente.</p></div></div>
+        <div class="columns">
           <section class="form-card">
             <h3>✓ Nuevo pago</h3>
-            ${debts.length ? `
-              <form id="paymentForm">
-                <label>Selecciona la deuda
-                  <select name="debtId" required>
-                    ${debts.map(debt => `
-                      <option value="${debt.id}" ${selectedDebtId === debt.id ? "selected" : ""}>
-                        ${escapeHTML(debt.name)} — saldo ${money(debtRemaining(debt))}
-                      </option>
-                    `).join("")}
-                  </select>
-                </label>
-                <label>Monto que pagaste ($)
-                  <input name="amount" type="number" min="0.01" step="0.01" required placeholder="Ej. 50.00">
-                </label>
-                <label>Fecha del pago
-                  <input name="date" type="date" value="${todayString()}" required>
-                </label>
-                <label class="checkbox-label">
-                  <input name="fromAvailable" type="checkbox" checked>
-                  Descontar del dinero disponible
-                </label>
-                <button class="primary" type="submit">Registrar pago</button>
-              </form>
-            ` : `<div class="empty">No tienes deudas pendientes.<br>Agrega una deuda para registrar un pago.</div>`}
+            ${debts.length ? `<form id="paymentForm">
+              <label>Deuda<select name="debtId" required>${debts.map(d => `<option value="${d.id}" ${selectedDebt === d.id ? "selected" : ""}>${esc(d.name)} — saldo ${money(balance(d))}</option>`).join("")}</select></label>
+              <label>Monto pagado ($)<input name="amount" type="number" min="0.01" step="0.01" required placeholder="50.00"></label>
+              <label>Fecha del pago<input name="date" type="date" value="${todayString()}" required></label>
+              <label class="check"><input name="fromAvailable" type="checkbox" checked> Descontar del dinero disponible</label>
+              <button class="primary">Registrar pago</button>
+            </form>` : `<div class="empty">No tienes deudas pendientes para pagar.</div>`}
           </section>
-
           <section class="card">
-            <div class="section-top">
-              <h3>Historial de pagos</h3>
-              <span class="badge">${payments.length}</span>
-            </div>
-            ${payments.length ? `
-              <div class="list">
-                ${payments.map(payment => {
-                  const debt = data.debts.find(item => item.id === payment.debtId);
-                  return `
-                    <div class="list-item">
-                      <div>
-                        <div class="item-title">${escapeHTML(debt?.name || "Deuda")}</div>
-                        <div class="item-details">Confirmado · ${formatDate(payment.date)}</div>
-                      </div>
-                      <span class="amount" style="color:var(--green)">${money(payment.amount)}</span>
-                    </div>`;
-                }).join("")}
-              </div>
-            ` : `<div class="empty">Los pagos que confirmes aparecerán aquí.</div>`}
+            <h3>Historial de pagos</h3>
+            ${payments.length ? `<div class="list">${payments.map(p => {
+              const d = data.debts.find(x => x.id === p.debtId);
+              return `<div class="item"><div><div class="item-name">${esc(d?.name || "Deuda")}</div><div class="item-info">Confirmado · ${dateText(p.date)}</div></div><strong class="green amount">${money(p.amount)}</strong></div>`;
+            }).join("")}</div>` : `<div class="empty">Los pagos confirmados aparecerán aquí.</div>`}
           </section>
         </div>`;
     }
 
     function renderCalendar() {
       const events = [
-        ...activeDebts().map(debt => ({
-          date: debt.dueDate,
-          name: debt.name,
-          amount: debtRemaining(debt),
-          type: "Vencimiento",
-          color: "orange"
-        })),
-        ...data.incomes.map(income => ({
-          date: income.date,
-          name: income.name,
-          amount: Number(income.amount),
-          type: income.received ? "Ingreso recibido" : "Ingreso programado",
-          color: income.received ? "green" : ""
-        }))
+        ...debtsOpen().map(d => ({ date: d.dueDate, name: d.name, amount: balance(d), type: "Vencimiento", cls: dueClass(d) })),
+        ...data.incomes.map(i => ({ date: i.date, name: i.name, amount: i.amount, type: i.received ? "Ingreso recibido" : "Ingreso programado", cls: i.received ? "green" : "" }))
       ].sort((a, b) => a.date.localeCompare(b.date));
 
-      return `
-        <div class="page-heading">
-          <div>
-            <h2>Fechas importantes</h2>
-            <p class="subtitle">Consulta tus vencimientos e ingresos registrados.</p>
-          </div>
-        </div>
-
-        <section class="card">
-          ${events.length ? `
-            <div class="list">
-              ${events.map(event => `
-                <div class="list-item">
-                  <div>
-                    <div class="item-title">${escapeHTML(event.name)}</div>
-                    <div class="item-details">${event.type} · ${formatDate(event.date)}</div>
-                  </div>
-                  <div class="item-actions">
-                    <span class="badge ${event.color}">${event.type}</span>
-                    <span class="amount">${money(event.amount)}</span>
-                  </div>
-                </div>
-              `).join("")}
-            </div>
-          ` : `<div class="empty">Todavía no hay fechas.<br>Agrega una deuda o un ingreso para verlos aquí.</div>`}
-        </section>`;
+      return `<div class="heading"><div><h2>Calendario</h2><p class="subtitle">Tus vencimientos e ingresos por fecha.</p></div></div>
+        <section class="card">${events.length ? `<div class="list">${events.map(e => `
+          <div class="item"><div><div class="item-name">${esc(e.name)}</div><div class="item-info">${dateText(e.date)}</div></div>
+          <div class="item-actions"><span class="badge ${e.cls}">${e.type}</span><strong>${money(e.amount)}</strong></div></div>
+        `).join("")}</div>` : `<div class="empty">Agrega deudas o ingresos para verlos aquí.</div>`}</section>`;
     }
 
     function renderProfile() {
-      const name = getProfileName();
-
-      return `
-        <div class="page-heading">
-          <div>
-            <h2>Perfil</h2>
-            <p class="subtitle">Configura tu nombre y los recordatorios.</p>
-          </div>
-        </div>
-
-        <div class="two-column">
-          <section class="form-card">
-            <h3>👤 Nombre de la persona</h3>
+      return `<div class="heading"><div><h2>Perfil</h2><p class="subtitle">Personaliza PayPlan y configura recordatorios.</p></div></div>
+        <div class="columns">
+          <section class="form-card"><h3>👤 Tu nombre</h3>
             <form id="profileForm">
-              <label>Nombre
-                <input name="userName" maxlength="50" value="${escapeHTML(name)}" placeholder="Ej. Eladio">
-              </label>
-              <button class="primary" type="submit">Guardar nombre</button>
+              <label>Nombre<input name="name" maxlength="50" value="${esc(name())}" placeholder="Ej. Eladio"></label>
+              <button class="primary">Guardar nombre</button>
             </form>
           </section>
-
-          <section class="card">
-            <h3>🔔 Recordatorios</h3>
-            <p class="muted">Cuando actives las notificaciones, la app te avisará con un recordatorio 5 días antes y el día que vence el pago.</p>
-            <button class="primary" data-enable-notifications type="button" style="width:100%;margin-top:8px">
-              Activar notificaciones
-            </button>
+          <section class="card"><h3>🔔 Recordatorios</h3>
+            <p class="muted">Activa las notificaciones para recibir avisos 5 días antes y el día del vencimiento. En esta versión, PayPlan revisa los pagos mientras la página está abierta.</p>
+            <button class="primary" data-notifications>Activar notificaciones</button>
           </section>
         </div>`;
     }
 
-    async function enableNotifications() {
+    function renderHelp() {
+      return `<div class="heading"><div><h2>Ayuda</h2><p class="subtitle">Pasos sencillos para organizar tus pagos.</p></div></div>
+        <section class="card">
+          <h3>Cómo usar PayPlan</h3>
+          <ol>
+            <li>En <b>Deudas</b>, agrega el monto y fecha de vencimiento.</li>
+            <li>En <b>Ingresos</b>, registra cuánto y cuándo te pagan.</li>
+            <li>En <b>Inicio</b>, revisa el plan sugerido, ordenado por vencimiento.</li>
+            <li>Cuando pagues, ve a <b>Pagos</b>, selecciona la deuda y pulsa “Registrar pago”.</li>
+            <li>Confirma el registro para actualizar el saldo pendiente.</li>
+          </ol>
+          <p class="muted">PayPlan organiza y registra la información; no transfiere dinero ni paga a tus acreedores. Tus datos se guardan en este navegador.</p>
+          <button class="danger" data-clear>Borrar todos mis datos</button>
+        </section>`;
+    }
+
+    function notify() {
+      if (!("Notification" in window) || Notification.permission !== "granted") return;
+      for (const d of debtsOpen()) {
+        const days = daysUntil(d.dueDate);
+        if (days !== 5 && days !== 0) continue;
+        const key = `payplan-reminder-${d.id}-${d.dueDate}-${days}`;
+        if (localStorage.getItem(key)) continue;
+        try {
+          new Notification("PayPlan: recordatorio de pago", {
+            body: days === 0
+              ? `${d.name} vence hoy. Saldo: ${money(balance(d))}.`
+              : `${d.name} vence en 5 días. Saldo: ${money(balance(d))}.`
+          });
+          localStorage.setItem(key, "sent");
+        } catch {}
+      }
+    }
+
+    async function requestNotifications() {
       if (!("Notification" in window)) {
         alert("Este navegador no admite notificaciones.");
         return;
       }
-
-      try {
-        const permission = await Notification.requestPermission();
-
-        if (permission === "granted") {
-          alert("¡Recordatorios activados! PayPlan revisará los vencimientos mientras esté abierto.");
-          checkReminders();
-        } else {
-          alert("No se activaron las notificaciones. Revisa los permisos del navegador.");
-        }
-      } catch {
-        alert("No se pudo solicitar permiso para las notificaciones en este navegador.");
-      }
-    }
-
-    function checkReminders() {
-      if (!("Notification" in window) || Notification.permission !== "granted") return;
-
-      for (const debt of activeDebts()) {
-        const days = daysUntil(debt.dueDate);
-        if (days !== 5 && days !== 0) continue;
-
-        const reminderKey = `payplan-reminder-${debt.id}-${debt.dueDate}-${days}`;
-        if (localStorage.getItem(reminderKey)) continue;
-
-        const message = days === 0
-          ? `${debt.name} vence hoy. Saldo pendiente: ${money(debtRemaining(debt))}.`
-          : `${debt.name} vence en 5 días. Saldo pendiente: ${money(debtRemaining(debt))}.`;
-
-        try {
-          new Notification("PayPlan: recordatorio de pago", { body: message });
-          localStorage.setItem(reminderKey, "sent");
-        } catch {
-          // ignorado
-        }
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        alert("Notificaciones activadas. PayPlan las revisará mientras esté abierto.");
+        notify();
+      } else {
+        alert("No se concedió permiso para las notificaciones.");
       }
     }
 
     function render() {
       renderNav();
-
-      const renderers = {
-        home: renderHome,
-        debts: renderDebts,
-        income: renderIncome,
-        payments: renderPayments,
-        calendar: renderCalendar,
-        profile: renderProfile
-      };
-
-      document.getElementById("app").innerHTML = renderers[currentPage]();
-      document.getElementById("todayLabel").textContent =
-        new Date().toLocaleDateString("es", {
-          weekday: "short",
-          day: "numeric",
-          month: "short"
-        });
-
-      checkReminders();
+      const views = { home: renderHome, debts: renderDebts, income: renderIncome,
+        payments: renderPayments, calendar: renderCalendar, profile: renderProfile, help: renderHelp };
+      document.getElementById("app").innerHTML = views[page]();
+      document.getElementById("today").textContent =
+        new Date().toLocaleDateString("es", { weekday: "short", day: "numeric", month: "short" });
+      notify();
     }
 
-    document.addEventListener("click", event => {
-      const pageButton = event.target.closest("[data-page]");
+    document.addEventListener("click", async event => {
+      const navButton = event.target.closest("[data-page]");
       const goButton = event.target.closest("[data-go]");
       const payButton = event.target.closest("[data-pay]");
-      const deleteDebtButton = event.target.closest("[data-delete-debt]");
-      const deleteIncomeButton = event.target.closest("[data-delete-income]");
-      const receiveButton = event.target.closest("[data-receive-income]");
+      const receiveButton = event.target.closest("[data-receive]");
+      const deleteDebt = event.target.closest("[data-delete-debt]");
+      const deleteIncome = event.target.closest("[data-delete-income]");
 
-      if (pageButton) {
-        currentPage = pageButton.dataset.page;
-        selectedDebtId = "";
-        render();
-        return;
-      }
+      if (navButton) { page = navButton.dataset.page; selectedDebt = ""; render(); return; }
+      if (goButton) { page = goButton.dataset.go; render(); return; }
+      if (payButton) { selectedDebt = payButton.dataset.pay; page = "payments"; render(); return; }
 
-      if (goButton) {
-        currentPage = goButton.dataset.go;
-        render();
-        return;
-      }
-
-      if (payButton) {
-        selectedDebtId = payButton.dataset.pay;
-        currentPage = "payments";
-        render();
-        return;
-      }
-
-      if (event.target.closest("[data-enable-notifications]")) {
-        enableNotifications();
+      if (event.target.closest("[data-notifications]")) {
+        await requestNotifications();
         return;
       }
 
       if (receiveButton) {
-        const income = data.incomes.find(item => item.id === receiveButton.dataset.receiveIncome);
-        if (income && !income.received) {
-          income.received = true;
-          saveData();
-          render();
+        const i = data.incomes.find(x => x.id === receiveButton.dataset.receive);
+        if (i) { i.received = true; save(); render(); }
+        return;
+      }
+
+      if (deleteDebt) {
+        const d = data.debts.find(x => x.id === deleteDebt.dataset.deleteDebt);
+        if (d && confirm(`¿Eliminar "${d.name}" y su historial de pagos?`)) {
+          data.debts = data.debts.filter(x => x.id !== d.id);
+          data.payments = data.payments.filter(x => x.debtId !== d.id);
+          save(); render();
         }
         return;
       }
 
-      if (deleteDebtButton) {
-        const debt = data.debts.find(item => item.id === deleteDebtButton.dataset.deleteDebt);
-        if (!debt || !confirm(`¿Eliminar "${debt.name}" y su historial de pagos?`)) return;
-
-        data.debts = data.debts.filter(item => item.id !== debt.id);
-        data.payments = data.payments.filter(payment => payment.debtId !== debt.id);
-        saveData();
-        render();
+      if (deleteIncome) {
+        const i = data.incomes.find(x => x.id === deleteIncome.dataset.deleteIncome);
+        if (i && confirm(`¿Eliminar el ingreso "${i.name}"?`)) {
+          data.incomes = data.incomes.filter(x => x.id !== i.id);
+          save(); render();
+        }
         return;
       }
 
-      if (deleteIncomeButton) {
-        const income = data.incomes.find(item => item.id === deleteIncomeButton.dataset.deleteIncome);
-        if (!income || !confirm(`¿Eliminar el ingreso "${income.name}"?`)) return;
-
-        data.incomes = data.incomes.filter(item => item.id !== income.id);
-        saveData();
-        render();
+      if (event.target.closest("[data-clear]") && confirm("¿Borrar todas tus deudas, ingresos y pagos?")) {
+        data = { debts: [], incomes: [], payments: [] };
+        localStorage.removeItem(KEY);
+        localStorage.removeItem(NAME_KEY);
+        save(); render();
       }
     });
 
     document.addEventListener("submit", event => {
       event.preventDefault();
       const form = event.target;
-      const values = Object.fromEntries(new FormData(form));
+      const v = Object.fromEntries(new FormData(form));
 
       if (form.id === "profileForm") {
-        localStorage.setItem(NAME_KEY, (values.userName || "").trim());
+        localStorage.setItem(NAME_KEY, (v.name || "").trim());
         render();
         return;
       }
 
       if (form.id === "debtForm") {
-        const amount = Number(values.amount);
-        const minimum = Number(values.minimum) || 0;
-
-        if (amount <= 0 || minimum < 0) {
-          alert("Escribe montos válidos.");
-          return;
-        }
-
-        data.debts.push({
-          id: makeId(),
-          name: values.name.trim(),
-          amount,
-          minimum,
-          dueDate: values.dueDate
-        });
-
-        saveData();
-        render();
+        const amount = Number(v.amount);
+        if (!v.name.trim() || amount <= 0) return alert("Revisa el nombre y el monto de la deuda.");
+        data.debts.push({ id: id(), name: v.name.trim(), amount, minimum: Number(v.minimum) || 0, dueDate: v.dueDate });
+        save(); render();
         return;
       }
 
       if (form.id === "incomeForm") {
-        const amount = Number(values.amount);
-        if (amount <= 0) {
-          alert("El monto del ingreso debe ser mayor que cero.");
-          return;
-        }
-
-        data.incomes.push({
-          id: makeId(),
-          name: values.name.trim(),
-          amount,
-          date: values.date,
-          received: form.elements.received.checked
-        });
-
-        saveData();
-        render();
+        const amount = Number(v.amount);
+        if (!v.name.trim() || amount <= 0) return alert("Revisa el nombre y el monto del ingreso.");
+        data.incomes.push({ id: id(), name: v.name.trim(), amount, date: v.date, received: form.elements.received.checked });
+        save(); render();
         return;
       }
 
       if (form.id === "paymentForm") {
-        const debt = data.debts.find(item => item.id === values.debtId);
-        const amount = Number(values.amount);
-
-        if (!debt || amount <= 0 || amount > debtRemaining(debt)) {
-          alert("El monto debe ser mayor que cero y no superar el saldo pendiente.");
-          return;
+        const debt = data.debts.find(d => d.id === v.debtId);
+        const amount = Number(v.amount);
+        if (!debt || amount <= 0 || amount > balance(debt)) {
+          return alert("El monto debe ser mayor que cero y no superar el saldo pendiente.");
         }
-
-        const approved = confirm(
-          `¿Confirmas el pago de ${money(amount)} para "${debt.name}"?`
-        );
-
-        if (!approved) return;
+        if (!confirm(`¿Confirmas el pago de ${money(amount)} para "${debt.name}"?`)) return;
 
         data.payments.push({
-          id: makeId(),
-          debtId: debt.id,
-          amount,
-          date: values.date,
+          id: id(), debtId: debt.id, amount, date: v.date,
           fromAvailable: form.elements.fromAvailable.checked
         });
-
-        saveData();
-        selectedDebtId = "";
-        alert(`Pago registrado. Saldo pendiente: ${money(debtRemaining(debt))}`);
+        save();
+        selectedDebt = "";
+        alert(`Pago registrado. Saldo pendiente: ${money(balance(debt))}`);
         render();
       }
     });
 
     document.addEventListener("visibilitychange", () => {
-      if (!document.hidden) checkReminders();
+      if (!document.hidden) notify();
     });
 
     render();
-    setInterval(checkReminders, 60 * 60 * 1000);
+    setInterval(notify, 60 * 60 * 1000);
   </script>
 </body>
-</html>
+  </html>
